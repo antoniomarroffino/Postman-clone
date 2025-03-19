@@ -1,12 +1,10 @@
-// src/components/Collection.tsx
 import React, { useState } from "react";
 import { FaFolder, FaChevronDown, FaChevronRight } from "react-icons/fa";
+import RequestCollection from "../types/model/RequestCollection";
+import RequestList from "./RequestList";
+import { RequestProvider } from "../provider/RequestProvider";
 
-interface CollectionProps {
-  name: string;
-}
-
-const Collection: React.FC<CollectionProps> = ({ name }) => {
+const Collection: React.FC<RequestCollection> = ({ id, name }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -23,7 +21,13 @@ const Collection: React.FC<CollectionProps> = ({ name }) => {
           {isExpanded ? <FaChevronDown /> : <FaChevronRight />}
         </div>
       </div>
-      {isExpanded && <div className="px-6 pb-4">{/*requests*/}</div>}
+      {isExpanded && (
+        <div className="px-6 pb-4">
+          <RequestProvider collectionId={id}>
+            <RequestList />
+          </RequestProvider>
+        </div>
+      )}
     </div>
   );
 };

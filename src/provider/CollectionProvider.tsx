@@ -1,12 +1,12 @@
-import RequestsCollection from "../types/model/RequestsCollection";
-import { CollectionsContext } from "../contexts/CollectionsContext";
+import RequestCollection from "../types/model/RequestCollection";
+import { CollectionsContext } from "../contexts/CollectionContext";
 import { useCallback, useEffect, useState } from "react";
 
 export const CollectionsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [collections, setCollections] = useState<
-    RequestsCollection[] | undefined
+    RequestCollection[] | undefined
   >(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<unknown>(null);

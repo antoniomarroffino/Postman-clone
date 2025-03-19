@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import HttpClient from "./components/HttpClient";
-import { CollectionsProvider } from "./provider/CollectionsProvider";
+import { CollectionsProvider } from "./provider/CollectionProvider";
 
 const queryClient = new QueryClient();
 

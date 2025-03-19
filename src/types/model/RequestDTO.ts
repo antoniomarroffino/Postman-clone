@@ -1,4 +1,4 @@
-export default interface Request {
+export default interface RequestDTO {
     id: string;
     name: string;
     uri: string;
