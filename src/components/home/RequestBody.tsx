@@ -1,19 +1,17 @@
 import { FC } from "react";
+import { useHttp } from "../../hooks/useHttp";
 
-interface RequestBodyProps {
-    value: string;
-    onChange: (value: string) => void;
-}
+const RequestBody: FC = () => {
+    const { state, actions } = useHttp();
 
-const RequestBody: FC<RequestBodyProps> = ({ value, onChange }) => {
     return (
         <div className="flex-1 flex flex-col">
             <h3 className="font-bold text-lg mb-2">Request Body</h3>
             <textarea
-                className="textarea h-full bg-base-200 w-full"
+                className="textarea h-full bg-base-200 w-full overflow-x-hidden"
                 placeholder="Raw content"
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
+                value={state.request.body}
+                onChange={(e) => actions.setBody(e.target.value)}
             />
         </div>
     );

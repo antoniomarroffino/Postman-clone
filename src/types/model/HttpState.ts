@@ -1,8 +1,12 @@
-import {HttpRequestDTO} from "./HttpRequestDTO.ts";
-import {HttpResponseDTO} from "./HttpResponseDTO.tsx";
+import {HttpResponseDTO} from "./HttpResponseDTO";
 
 export interface HttpState {
-    request: HttpRequestDTO;
+    request: {
+        method: string;
+        uri: string;
+        headers: Array<{ key: string; value: string }>;
+        body: string;
+    };
     response?: HttpResponseDTO;
     loading: boolean;
     error?: string;

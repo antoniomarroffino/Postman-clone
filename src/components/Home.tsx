@@ -26,10 +26,6 @@ const Home = () => {
         setHeaders(newHeaders);
     };
 
-    const handleSendRequest = () => {
-        console.log("SEND REQUEST");
-    };
-
     const handleRemoveHeader = (index: number) => {
         setHeaders(headers.filter((_, i) => i !== index));
     };
@@ -40,7 +36,7 @@ const Home = () => {
             <div className="flex gap-2">
                 <MethodDropdown/>
                 <UriInput/>
-                <SendButton onClick={handleSendRequest}/>
+                <SendButton/>
             </div>
 
             {/* Sezione 2 - Headers e Body */}

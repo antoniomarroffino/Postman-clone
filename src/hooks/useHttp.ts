@@ -3,6 +3,8 @@ import {HttpContext} from "../contexts/HttpContext"
 
 export const useHttp = () => {
     const context = useContext(HttpContext);
-    if (!context) throw new Error("useHttp must be used within HttpProvider");
+    if (!context) {
+        throw new Error("useHttp deve essere usato dentro HttpProvider");
+    }
     return context;
 };
