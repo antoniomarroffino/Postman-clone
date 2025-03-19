@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { FaChevronDown, FaFolder, FaFolderOpen, FaPlusCircle } from "react-icons/fa";
-import { FiDownload, FiRefreshCw } from "react-icons/fi";
+import React, {useState} from "react";
+import {FaChevronDown, FaFolder, FaFolderOpen, FaPlusCircle} from "react-icons/fa";
+import {FiDownload, FiRefreshCw} from "react-icons/fi";
 import RequestCollection from "../../types/model/RequestCollection";
 import RequestList from "./RequestList";
-import { useFile } from "../../hooks/useFile.ts";
-import { useRequest } from "../../hooks/useRequest.ts";
+import {useFile} from "../../hooks/useFile.ts";
+import {useRequest} from "../../hooks/useRequest.ts";
 
-const Collection: React.FC<RequestCollection> = ({ id, name }) => {
+const Collection: React.FC<RequestCollection> = ({id, name}) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const { exportCollection, isExporting } = useFile();
-    const { requests } = useRequest();
+    const {exportCollection, isExporting} = useFile();
+    const {requests} = useRequest();
 
     const handleCreateRequest = () => {
         //createRequest(id);
@@ -17,23 +17,26 @@ const Collection: React.FC<RequestCollection> = ({ id, name }) => {
 
     const handleExportClick = (e: React.MouseEvent) => {
         e.stopPropagation();
-        exportCollection({ collection: { id, name }, requests: requests });
+        exportCollection({collection: {id, name}, requests: requests});
     };
 
     return (
-        <div className="bg-base-100 rounded-box shadow-xl hover:shadow-2xl transition-all duration-300 border border-base-300 group">
+        <div
+            className="bg-base-100 rounded-box shadow-xl hover:shadow-2xl transition-all duration-300 border border-base-300 group">
             <div
                 className="flex items-center justify-between p-4 cursor-pointer hover:bg-base-200 transition-all duration-200"
                 onClick={() => setIsExpanded((prev) => !prev)}
             >
                 <div className="flex items-center gap-3">
                     <div className="relative">
-                        <div className="absolute -inset-2 bg-primary/10 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-primary-focus text-primary-content shadow-md">
+                        <div
+                            className="absolute -inset-2 bg-primary/10 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div
+                            className="p-2 rounded-lg bg-gradient-to-br from-primary to-primary-focus text-primary-content shadow-md">
                             {isExpanded ? (
-                                <FaFolderOpen className="text-2xl" />
+                                <FaFolderOpen className="text-2xl"/>
                             ) : (
-                                <FaFolder className="text-2xl" />
+                                <FaFolder className="text-2xl"/>
                             )}
                         </div>
                     </div>
@@ -54,14 +57,9 @@ const Collection: React.FC<RequestCollection> = ({ id, name }) => {
                             }`}
                         >
                             {isExporting ? (
-                                <FiRefreshCw className="w-5 h-5 animate-spin" />
+                                <FiRefreshCw className="w-5 h-5 animate-spin"/>
                             ) : (
-                                <FiDownload className="w-5 h-5" />
-                            )}
-
-                            {/* Effetto hover avanzato */}
-                            {!isExporting && (
-                                <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-primary/10" />
+                                <FiDownload className="w-5 h-5"/>
                             )}
                         </button>
                     </div>
@@ -71,7 +69,7 @@ const Collection: React.FC<RequestCollection> = ({ id, name }) => {
                             isExpanded ? "rotate-180 text-primary" : ""
                         }`}
                     >
-                        <FaChevronDown className="w-6 h-6" />
+                        <FaChevronDown className="w-6 h-6"/>
                     </div>
                 </div>
             </div>
@@ -80,13 +78,13 @@ const Collection: React.FC<RequestCollection> = ({ id, name }) => {
                 <div className="px-4 pb-4 pt-2 space-y-4">
                     <div className="divider m-0 opacity-50"></div>
 
-                    <RequestList />
+                    <RequestList/>
 
                     <button
                         onClick={handleCreateRequest}
                         className="btn btn-block btn-primary transform transition-all hover:scale-[1.02] active:scale-95"
                     >
-                        <FaPlusCircle className="text-xl mr-2 -ml-1 text-accent-content" />
+                        <FaPlusCircle className="text-xl mr-2 -ml-1 text-accent-content"/>
                         <span className="font-bold tracking-wide text-accent-content">
                             Create Request
                         </span>
