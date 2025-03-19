@@ -2,19 +2,11 @@
 import React, { useState } from "react";
 import { FaFolder, FaChevronDown, FaChevronRight } from "react-icons/fa";
 
-interface RequestProps {
-  id: number;
-  name: string;
-  method: string;
-  url: string;
-}
-
 interface CollectionProps {
   name: string;
-  requests?: RequestProps[];
 }
 
-const Collection: React.FC<CollectionProps> = ({ name, requests = [] }) => {
+const Collection: React.FC<CollectionProps> = ({ name }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -31,27 +23,7 @@ const Collection: React.FC<CollectionProps> = ({ name, requests = [] }) => {
           {isExpanded ? <FaChevronDown /> : <FaChevronRight />}
         </div>
       </div>
-      {isExpanded && (
-        <div className="px-6 pb-4">
-          {requests.length > 0 ? (
-            <ul className="flex flex-col gap-2">
-              {requests.map((req) => (
-                <li
-                  key={req.id}
-                  className="flex items-center text-sm bg-white p-2 rounded shadow-sm hover:bg-gray-100 transition"
-                >
-                  <span className="badge badge-outline mr-2">{req.method}</span>
-                  <span className="text-gray-700">{req.name}</span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="text-sm text-gray-500">
-              Nessuna richiesta salvata
-            </div>
-          )}
-        </div>
-      )}
+      {isExpanded && <div className="px-6 pb-4">{/*requests*/}</div>}
     </div>
   );
 };
