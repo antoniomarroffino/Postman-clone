@@ -41,7 +41,7 @@ const RequestList: React.FC = () => {
           />
         ))
       ) : (
-        <div className="text-center p-6 text-base-content/60 font-medium">
+        <div className="text-center p-2 text-base-content/60 font-medium">
           ✨ Nessuna request trovata
         </div>
       )}

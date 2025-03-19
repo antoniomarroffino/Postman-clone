@@ -22,12 +22,11 @@ const Sidebar: React.FC<SidebarProps> = ({showSearch, isOpen, onToggle}) => {
                 "bg-gray-100 h-full border-r border-gray-200 flex flex-col transition-all duration-700"
             }
         >
-            {/* Header */}
             <div className="p-4 border-b border-gray-300">
                 {isOpen ? (
                     <>
                         <div className="flex items-center justify-between">
-                            <h2 className="text-lg font-bold">Collections</h2>
+                            <h2 className="text-xl font-bold">Collections</h2>
                             <button onClick={onToggle} className="btn btn-ghost">
                                 <FiX size={15}/>
                             </button>
@@ -49,7 +48,6 @@ const Sidebar: React.FC<SidebarProps> = ({showSearch, isOpen, onToggle}) => {
                         )}
                     </>
                 ) : (
-                    // Stato chiuso: mostra solo i pulsanti come icone
                     <div className="flex flex-col items-center space-y-4">
                         <button onClick={onToggle} className="btn btn-ghost p-2">
                             <FiMenu size={15}/>
@@ -65,15 +63,18 @@ const Sidebar: React.FC<SidebarProps> = ({showSearch, isOpen, onToggle}) => {
                     </div>
                 )}
             </div>
-            {/* Mostra la lista delle collection solo se aperta */}
-            {isOpen && (
-                <div className="flex-1 overflow-y-auto p-2">
-                    <CollectionList searchQuery={debouncedSearchQuery}/>
-                    <div className="mt-4 p-2 border-t border-gray-200">
-                        <ImportButton/>
-                    </div>
-                </div>
-            )}
+            <div className="flex-1 flex flex-col overflow-hidden relative">
+                {isOpen && (
+                    <>
+                        <div className="flex-1 overflow-y-auto p-2">
+                            <CollectionList searchQuery={debouncedSearchQuery}/>
+                        </div>
+                        <div className="sticky bottom-0 bg-gray-100 border-t border-gray-200 p-4">
+                            <ImportButton />
+                        </div>
+                    </>
+                )}
+            </div>
         </div>
     );
 };
