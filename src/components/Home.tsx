@@ -7,8 +7,6 @@ import RequestBody from "./home/RequestBody.tsx";
 import ResponseSection from "./home/ResponseSection.tsx";
 
 const Home = () => {
-    const [method, setMethod] = useState("GET");
-    const [url, setUrl] = useState("");
     const [headers, setHeaders] = useState([{key: "", value: ""}]);
     const [requestBody, setRequestBody] = useState("");
     const [response] = useState({
@@ -40,16 +38,8 @@ const Home = () => {
         <div className="p-4 h-full flex flex-col gap-4">
 
             <div className="flex gap-2">
-                <MethodDropdown
-                    selectedMethod={method}
-                    onMethodChange={setMethod}
-                />
-
-                <UriInput
-                    value={url}
-                    onUrlChange={setUrl}
-                />
-
+                <MethodDropdown/>
+                <UriInput/>
                 <SendButton onClick={handleSendRequest}/>
             </div>
 

@@ -27,7 +27,7 @@ const HttpClient: React.FC<HttpClientProps> = ({
     }
 
     return (
-        <div className="grid grid-cols-12 h-screen">
+        <div className="grid grid-cols-12 h-screen overflow-hidden">
             {collections && (
                 <div className={`${sidebarClass}`}>
                     <Sidebar

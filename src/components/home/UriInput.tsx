@@ -1,18 +1,16 @@
 import { FC } from "react";
+import { useHttp } from "../../hooks/useHttp";
 
-interface UriInputProps {
-    value: string;
-    onUrlChange: (url: string) => void;
-}
+const UriInput: FC = () => {
+    const { state, actions } = useHttp();
 
-const UriInput: FC<UriInputProps> = ({ value, onUrlChange }) => {
     return (
         <input
             type="text"
             placeholder="Enter URL"
             className="input input-bordered flex-1"
-            value={value}
-            onChange={(e) => onUrlChange(e.target.value)}
+            value={state.request.uri}
+            onChange={(e) => actions.setUri(e.target.value)}
         />
     );
 };

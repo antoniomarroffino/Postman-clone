@@ -1,13 +1,43 @@
 import { FC } from "react";
+import { useHttp } from "../../hooks/useHttp";
+import { METHODS_REQUIRING_BODY } from "../../config/config.ts";
 
-interface SendButtonProps {
-    onClick: () => void;
-}
+const SendButton: FC = () => {
+    const { state, actions } = useHttp();
 
-const SendButton: FC<SendButtonProps> = ({ onClick }) => {
+    const isValidRequest = () => {
+        const hasValidUri = state.request.uri.startsWith('http://') ||
+            state.request.uri.startsWith('https://');
+
+        const hasRequiredBody = METHODS_REQUIRING_BODY.includes(state.request.method)
+            ? state.request.body.trim().length > 0
+            : true;
+
+        return hasValidUri && hasRequiredBody;
+    };
+
+    const isDisabled = state.loading || !isValidRequest();
+
     return (
-        <button className="btn btn-primary" onClick={onClick}>
-            Send
+        <button
+            className={`btn btn-primary 
+                text-black font-bold
+                transition-all duration-200
+                hover:brightness-110
+                active:scale-95
+                disabled:opacity-50
+                disabled:text-base-content/50
+                disabled:cursor-not-allowed
+                ${state.loading ? 'loading' : ''}`}
+            onClick={actions.sendRequest}
+            disabled={isDisabled}
+            aria-disabled={isDisabled}
+        >
+            {state.loading ? (
+                <span className="text-black">Sending...</span>
+            ) : (
+                'Send'
+            )}
         </button>
     );
 };
