@@ -32,6 +32,10 @@ const Home = () => {
         console.log("SEND REQUEST");
     };
 
+    const handleRemoveHeader = (index: number) => {
+        setHeaders(headers.filter((_, i) => i !== index));
+    };
+
     return (
         <div className="p-4 h-full flex flex-col gap-4">
 
@@ -55,6 +59,7 @@ const Home = () => {
                     headers={headers}
                     onAddHeader={handleAddHeader}
                     onHeaderChange={handleHeaderChange}
+                    onRemoveHeader={handleRemoveHeader}
                 />
 
                 <RequestBody
