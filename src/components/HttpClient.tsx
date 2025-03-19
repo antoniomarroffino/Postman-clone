@@ -19,8 +19,8 @@ const HttpClient: React.FC<HttpClientProps> = ({
   let sidebarClass = "";
   let homeClass = "";
   if (collections) {
-    sidebarClass = isSidebarOpen ? "col-span-2" : "col-span-1";
-    homeClass = isSidebarOpen ? "col-span-10" : "col-span-11";
+    sidebarClass = isSidebarOpen ? "col-span-3" : "col-span-1";
+    homeClass = isSidebarOpen ? "col-span-9" : "col-span-11";
   } else {
     homeClass = "col-span-12";
   }

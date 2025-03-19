@@ -6,6 +6,7 @@ export interface RequestContextProps {
   isLoading: boolean;
   error: unknown;
   refetch: () => void;
+  deleteRequest: (idRequest: string) => void;
 }
 
 export const RequestContext = createContext<RequestContextProps | undefined>(

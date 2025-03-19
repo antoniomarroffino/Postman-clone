@@ -1,12 +1,14 @@
 import React from "react";
 import SidebarProps from "../types/props/SidebarProps";
 import { FiX, FiMenu, FiSearch, FiFolder } from "react-icons/fi";
-import CollectionList from "./CollectionList";
+import CollectionList from "./sidebar/CollectionList";
 
 const Sidebar: React.FC<SidebarProps> = ({ showSearch, isOpen, onToggle }) => {
   return (
     <div
-      className={"bg-gray-100 h-full border-r border-gray-200 flex flex-col transition-all duration-700"}
+      className={
+        "bg-gray-100 h-full border-r border-gray-200 flex flex-col transition-all duration-700"
+      }
     >
       {/* Header */}
       <div className="p-4 border-b border-gray-300">
@@ -50,7 +52,7 @@ const Sidebar: React.FC<SidebarProps> = ({ showSearch, isOpen, onToggle }) => {
       </div>
       {/* Mostra la lista delle collection solo se aperta */}
       {isOpen && (
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto p-2">
           <CollectionList />
         </div>
       )}
