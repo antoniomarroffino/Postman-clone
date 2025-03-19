@@ -6,9 +6,7 @@ import CollectionList from "./CollectionList";
 const Sidebar: React.FC<SidebarProps> = ({ showSearch, isOpen, onToggle }) => {
   return (
     <div
-      className={`bg-gray-100 h-full border-r border-gray-200 flex flex-col transition-all duration-700 ${
-        isOpen ? "w-64" : "w-20"
-      }`}
+      className={"bg-gray-100 h-full border-r border-gray-200 flex flex-col transition-all duration-700"}
     >
       {/* Header */}
       <div className="p-4 border-b border-gray-300">
