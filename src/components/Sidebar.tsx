@@ -1,9 +1,20 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import SidebarProps from "../types/props/SidebarProps";
 import { FiX, FiMenu, FiSearch, FiFolder } from "react-icons/fi";
 import CollectionList from "./sidebar/CollectionList";
 
 const Sidebar: React.FC<SidebarProps> = ({ showSearch, isOpen, onToggle }) => {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearchQuery(searchQuery);
+        }, 300);
+
+        return () => clearTimeout(handler);
+    }, [searchQuery]);
+
   return (
     <div
       className={
@@ -20,18 +31,20 @@ const Sidebar: React.FC<SidebarProps> = ({ showSearch, isOpen, onToggle }) => {
                 <FiX size={15} />
               </button>
             </div>
-            {showSearch && (
-              <div className="mt-4">
-                <div className="relative">
-                  <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Cerca..."
-                    className="input input-bordered w-full pl-10"
-                  />
-                </div>
-              </div>
-            )}
+              {showSearch && (
+                  <div className="mt-4">
+                      <div className="relative">
+                          <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                          <input
+                              type="text"
+                              placeholder="Cerca..."
+                              className="input input-bordered w-full pl-10"
+                              value={searchQuery}
+                              onChange={(e) => setSearchQuery(e.target.value)}
+                          />
+                      </div>
+                  </div>
+              )}
           </>
         ) : (
           // Stato chiuso: mostra solo i pulsanti come icone
@@ -53,7 +66,7 @@ const Sidebar: React.FC<SidebarProps> = ({ showSearch, isOpen, onToggle }) => {
       {/* Mostra la lista delle collection solo se aperta */}
       {isOpen && (
         <div className="flex-1 overflow-y-auto p-2">
-          <CollectionList />
+          <CollectionList searchQuery={debouncedSearchQuery} />
         </div>
       )}
     </div>
