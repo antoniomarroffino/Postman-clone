@@ -7,10 +7,10 @@ interface RequestBodyProps {
 
 const RequestBody: FC<RequestBodyProps> = ({ value, onChange }) => {
     return (
-        <div className="w-1/2 flex flex-col">
-            <h3 className="font-bold mb-2">Request Body</h3>
+        <div className="flex-1 flex flex-col">
+            <h3 className="font-bold text-lg mb-2">Request Body</h3>
             <textarea
-                className="textarea h-full bg-base-200"
+                className="textarea h-full bg-base-200 w-full"
                 placeholder="Raw content"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
