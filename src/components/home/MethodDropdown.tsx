@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 interface MethodDropdownProps {
     selectedMethod: string;
@@ -6,17 +6,72 @@ interface MethodDropdownProps {
 }
 
 const MethodDropdown: FC<MethodDropdownProps> = ({ selectedMethod, onMethodChange }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const methods = ["GET", "POST", "PUT", "DELETE"];
+
+    const methodColors: { [key: string]: string } = {
+        GET: "text-green-500",     // Usa colori Tailwind standard
+        POST: "text-yellow-500",
+        PUT: "text-blue-500",
+        DELETE: "text-red-500"
+    };
+
+    const methodBgColors: { [key: string]: string } = {
+        GET: "bg-green-500",
+        POST: "bg-yellow-500",
+        PUT: "bg-blue-500",
+        DELETE: "bg-red-500"
+    };
+
     return (
-        <select
-            className="select select-bordered w-32 bordered bordered-black"
-            value={selectedMethod}
-            onChange={(e) => onMethodChange(e.target.value)}
-        >
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-            <option value="PUT">PUT</option>
-            <option value="DELETE">DELETE</option>
-        </select>
+        <div className="relative group">
+            <button
+                className={`btn btn-outline ${methodColors[selectedMethod]} 
+                hover:bg-base-200 border-base-content/20 hover:border-primary 
+                transition-all duration-300 hover:scale-[1.02] flex items-center gap-2 pr-8`}
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                <span className="font-mono font-bold">{selectedMethod}</span>
+                <svg
+                    className={`w-4 h-4 transform transition-transform duration-200 ${
+                        isOpen ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                    />
+                </svg>
+            </button>
+
+            {isOpen && (
+                <div className="absolute mt-2 w-full z-10">
+                    <div className="bg-base-100 border-2 border-primary rounded-lg shadow-xl overflow-hidden">
+                        {methods.map((method) => (
+                            <div
+                                key={method}
+                                className={`px-4 py-2 cursor-pointer font-mono font-semibold 
+                                ${method === selectedMethod
+                                    ? `${methodBgColors[method]} text-white`
+                                    : `${methodColors[method]} hover:bg-base-200`} 
+                                transition-colors duration-200`}
+                                onClick={() => {
+                                    onMethodChange(method);
+                                    setIsOpen(false);
+                                }}
+                            >
+                                {method}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 
