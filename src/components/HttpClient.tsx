@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Home from "./Home";
 import Sidebar from "./Sidebar";
-import HttpClientProps from "../types/HttpClientProps";
+import HttpClientProps from "../types/props/HttpClientProps";
 
 const HttpClient: React.FC<HttpClientProps> = ({
   url,
@@ -9,6 +9,8 @@ const HttpClient: React.FC<HttpClientProps> = ({
   collections,
 }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  console.log(url);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -24,9 +26,9 @@ const HttpClient: React.FC<HttpClientProps> = ({
   }
 
   return (
-    <div className="grid grid-cols-12 h-screen w-full m-0 p-0">
+    <div className="grid grid-cols-12 h-screen">
       {collections && (
-        <div className={`transition-all duration-300 ${sidebarClass} h-full`}>
+        <div className={`${sidebarClass}`}>
           <Sidebar
             showSearch={search}
             isOpen={isSidebarOpen}
@@ -34,7 +36,7 @@ const HttpClient: React.FC<HttpClientProps> = ({
           />
         </div>
       )}
-      <div className={`bg-blue-200 ${homeClass} h-full`}>
+      <div className={`${homeClass}`}>
         <Home />
       </div>
     </div>
