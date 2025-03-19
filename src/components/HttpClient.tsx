@@ -1,13 +1,7 @@
-// src/components/HttpClient.tsx
 import React, { useState } from "react";
-import Sidebar from "./SideBar";
 import Home from "./Home";
-
-interface HttpClientProps {
-  url: string;
-  search: boolean;
-  collections: boolean;
-}
+import Sidebar from "./Sidebar";
+import HttpClientProps from "../types/HttpClientProps";
 
 const HttpClient: React.FC<HttpClientProps> = ({
   url,
@@ -16,33 +10,31 @@ const HttpClient: React.FC<HttpClientProps> = ({
 }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  console.log(url);
-
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
 
+  let sidebarClass = "";
+  let homeClass = "";
+  if (collections) {
+    sidebarClass = isSidebarOpen ? "col-span-2" : "col-span-1";
+    homeClass = isSidebarOpen ? "col-span-10" : "col-span-11";
+  } else {
+    homeClass = "col-span-12";
+  }
+
   return (
-    <div className="flex h-screen">
-      {/* Sidebar: visualizzata solo se collections è true */}
+    <div className="grid grid-cols-12 h-screen w-full m-0 p-0">
       {collections && (
-        <div
-          className={`
-            transition-all duration-300 
-            ${isSidebarOpen ? "w-64 border-r border-base-300" : "w-0"}
-            overflow-hidden
-          `}
-        >
+        <div className={`transition-all duration-300 ${sidebarClass} h-full`}>
           <Sidebar
-            search={search}
+            showSearch={search}
             isOpen={isSidebarOpen}
-            toggleSidebar={toggleSidebar}
+            onToggle={toggleSidebar}
           />
         </div>
       )}
-
-      {/* Home: occupa tutto lo spazio rimanente */}
-      <div className="flex-1">
+      <div className={`bg-blue-200 ${homeClass} h-full`}>
         <Home />
       </div>
     </div>
