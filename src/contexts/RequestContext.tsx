@@ -2,7 +2,7 @@ import { createContext } from "react";
 import RequestDTO from "../types/model/RequestDTO";
 
 export interface RequestContextProps {
-  requests: RequestDTO[] | undefined;
+  requests: RequestDTO[];
   isLoading: boolean;
   error: unknown;
   refetch: () => void;

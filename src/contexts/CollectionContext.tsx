@@ -2,7 +2,7 @@ import { createContext } from "react";
 import RequestCollection from "../types/model/RequestCollection";
 
 export interface CollectionContextProps {
-  collections: RequestCollection[] | undefined;
+  collections: RequestCollection[];
   isLoading: boolean;
   error: unknown;
   refetch: () => void;
