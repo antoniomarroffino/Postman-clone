@@ -10,8 +10,6 @@ const HttpClient: React.FC<HttpClientProps> = ({
 }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  console.log(url);
-
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
@@ -20,13 +18,13 @@ const HttpClient: React.FC<HttpClientProps> = ({
   let homeClass = "";
   if (collections) {
     sidebarClass = isSidebarOpen ? "col-span-3" : "col-span-1";
-    homeClass = isSidebarOpen ? "col-span-9" : "col-span-11";
+    homeClass = isSidebarOpen ? "col-span-13" : "col-span-15";
   } else {
-    homeClass = "col-span-12";
+    homeClass = "col-span-16";
   }
 
   return (
-    <div className="grid grid-cols-12 h-screen">
+    <div className="grid grid-cols-16 h-screen">
       {collections && (
         <div className={`${sidebarClass}`}>
           <Sidebar
