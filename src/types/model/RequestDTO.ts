@@ -4,7 +4,7 @@ export default interface RequestDTO {
     uri: string;
     method: string;
     headers: {
-        properties: string[];
+        [key: string]: string[];
     }
     body: string;
     collectionId: number;

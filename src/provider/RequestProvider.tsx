@@ -12,7 +12,7 @@ export const RequestProvider: React.FC<RequestProviderProps> = ({
   collectionId,
   children,
 }) => {
-  const [requests, setRequests] = useState<RequestDTO[] | undefined>(undefined);
+  const [requests, setRequests] = useState<RequestDTO[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<unknown>(null);
 
