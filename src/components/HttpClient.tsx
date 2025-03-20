@@ -11,6 +11,8 @@ const HttpClient: React.FC<HttpClientProps> = ({
                                                }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+    console.log(url);
+
     const toggleSidebar = () => {
         setIsSidebarOpen((prev) => !prev);
     };
