@@ -1,7 +1,8 @@
-import {ReactNode, useMemo, useState} from "react";
-import {HttpContext} from "../contexts/HttpContext";
-import {HttpState} from "../types/model/HttpState.ts";
-import {HttpActions} from "../types/model/HttpActions.ts";
+import { ReactNode, useMemo, useState } from "react";
+import { HttpContext } from "../contexts/HttpContext";
+import { HttpState } from "../types/model/HttpState.ts";
+import { HttpActions } from "../types/model/HttpActions.ts";
+import {HttpResponseDTO} from "../types/model/HttpResponseDTO.tsx";
 
 export const HttpProvider = ({ children }: { children: ReactNode }) => {
     const [state, setState] = useState<HttpState>({
@@ -21,10 +22,12 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
             ...prev,
             request: { ...prev.request, method }
         })),
+
         setUri: (uri: string) => setState(prev => ({
             ...prev,
             request: { ...prev.request, uri }
         })),
+
         addHeader: () => setState(prev => ({
             ...prev,
             request: {
@@ -32,10 +35,11 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
                 headers: [...prev.request.headers, { key: '', value: '' }]
             }
         })),
+
         updateHeader: (index: number, field: 'key' | 'value', value: string) => {
             setState(prev => {
                 const newHeaders = [...prev.request.headers];
-                newHeaders[index] = {...newHeaders[index], [field]: value};
+                newHeaders[index] = { ...newHeaders[index], [field]: value };
                 return {
                     ...prev,
                     request: {
@@ -45,6 +49,7 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
                 };
             });
         },
+
         removeHeader: (index: number) => setState(prev => ({
             ...prev,
             request: {
@@ -52,6 +57,7 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
                 headers: prev.request.headers.filter((_, i: number) => i !== index)
             }
         })),
+
         setBody: (body: string) => setState(prev => ({
             ...prev,
             request: { ...prev.request, body }
@@ -61,11 +67,9 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
             try {
                 setState(prev => ({ ...prev, loading: true, error: undefined }));
 
-                console.log("Invio richiesta:", state.request); // <-- Aggiungi questo
-
                 const headers = new Headers();
                 state.request.headers.forEach(({ key, value }) => {
-                    if(key.trim() && value.trim()) headers.append(key, value);
+                    if (key.trim() && value.trim()) headers.append(key, value);
                 });
 
                 const startTime = performance.now();
@@ -75,16 +79,18 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
                     body: ['GET', 'HEAD'].includes(state.request.method) ? undefined : state.request.body
                 });
 
-                const data = await response.text();
-                const responseData = {
+                let data = await response.text();
+                try {
+                    data = JSON.stringify(JSON.parse(data), null, 2);
+                } catch {}
+
+                const responseData: HttpResponseDTO = {
                     status: `${response.status} ${response.statusText}`,
                     data,
                     headers: Object.fromEntries(response.headers.entries()),
                     time: performance.now() - startTime,
                     size: new TextEncoder().encode(data).length
                 };
-
-                console.log("Ricevuta risposta:", responseData);
 
                 setState(prev => ({
                     ...prev,
@@ -94,7 +100,6 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
 
             } catch (err) {
                 const error = err instanceof Error ? err.message : 'Unknown error';
-                console.error("Errore nella richiesta:", error);
                 setState(prev => ({
                     ...prev,
                     error,
