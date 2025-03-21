@@ -1,13 +1,15 @@
 import { createContext } from "react";
 import RequestCollection from "../types/model/RequestCollection";
 
-export interface CollectionContextProps {
+type CollectionContextType = {
   collections: RequestCollection[];
   isLoading: boolean;
   error: unknown;
   refetch: () => void;
-}
+  addNewCollection: (newCollection: RequestCollection) => void;
+  isCollectionIdUnique: (collectionId: number) => boolean;
+};
 
 export const CollectionsContext = createContext<
-  CollectionContextProps | undefined
+  CollectionContextType | undefined
 >(undefined);

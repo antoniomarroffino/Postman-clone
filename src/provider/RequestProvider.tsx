@@ -22,7 +22,9 @@ export const RequestProvider: React.FC<RequestProviderProps> = ({
     setError(null);
     try {
       const response = await fetch(
-        `https://supsi-ticket.cloudns.org/supsi-http-client/bff/collections/${collectionId}/requests?apiKey=${apiKey}`
+        `${
+          import.meta.env.VITE_BACKEND_BASE_URL
+        }/bff/collections/${collectionId}/requests?apiKey=${apiKey}`
       );
       if (!response.ok) throw new Error("Errore nel recupero delle Requests");
       const data = await response.json();
@@ -39,13 +41,15 @@ export const RequestProvider: React.FC<RequestProviderProps> = ({
     setError(null);
     try {
       const response = await fetch(
-        `https://supsi-ticket.cloudns.org/supsi-http-client/bff/requests/${idRequest}?apiKey=${apiKey}`,
+        `${
+          import.meta.env.VITE_BACKEND_BASE_URL
+        }/bff/requests/${idRequest}?apiKey=${apiKey}`,
         {
           method: "DELETE",
         }
       );
       if (!response.ok) throw new Error("Errore nella delete della Request");
-      await fetchRequest();
+      setRequests((prev) => prev.filter((req) => req.id !== idRequest));
     } catch (err) {
       setError(err);
     }

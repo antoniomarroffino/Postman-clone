@@ -1,14 +1,14 @@
 import { createContext } from "react";
 import RequestDTO from "../types/model/RequestDTO";
 
-export interface RequestContextProps {
+type RequestContextType = {
   requests: RequestDTO[];
   isLoading: boolean;
   error: unknown;
   refetch: () => void;
   deleteRequest: (idRequest: string) => void;
-}
+};
 
-export const RequestContext = createContext<RequestContextProps | undefined>(
+export const RequestContext = createContext<RequestContextType | undefined>(
   undefined
 );
