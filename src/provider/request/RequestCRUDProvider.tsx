@@ -1,20 +1,25 @@
-import {RequestCRUDContext} from "../../contexts/request/RequestCRUDContext.ts";
+import {RequestCRUDContext} from "../../contexts/request/RequestCRUDContext.tsx";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import RequestDTO from "../../types/model/RequestDTO.ts";
 import {apiKey} from "../../config/config.ts";
+import RequestCreationDTO from "../../types/model/RequestCreationDTO.ts";
 
 export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     const queryClient = useQueryClient();
 
     const createMutation = useMutation({
-        mutationFn: async ({ collectionId, requestDTO }: { collectionId: number, requestDTO: RequestDTO }) => {
+        mutationFn: async ({ collectionId, requestCreationDTO }: { collectionId: number, requestCreationDTO: RequestCreationDTO }) => {
             const response = await fetch(
                 `${
                     import.meta.env.VITE_BACKEND_BASE_URL
                 }/bff/collections/${collectionId}/requests?apiKey=${apiKey}`,
                 {
                     method: "POST",
-                    body: JSON.stringify(requestDTO),
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(requestCreationDTO),
                 }
             );
             if (!response.ok) {
@@ -71,8 +76,8 @@ export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ chi
         }
     });
 
-    const createRequest = async (collectionId: number, requestDTO: RequestDTO) => {
-        return createMutation.mutateAsync({ collectionId, requestDTO });
+    const createRequest = async (collectionId: number, requestCreationDTO: RequestCreationDTO) => {
+        return createMutation.mutateAsync({ collectionId, requestCreationDTO });
     };
 
     const updateRequest = async (collectionId: number, requestId: string, requestDTO: RequestDTO) => {

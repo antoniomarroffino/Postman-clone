@@ -1,8 +1,9 @@
 import RequestDTO from "../../types/model/RequestDTO.ts";
 import {createContext} from "react";
+import RequestCreationDTO from "../../types/model/RequestCreationDTO.ts";
 
 export type RequestCRUDContextType = {
-    createRequest: (collectionId: number, requestDTO: RequestDTO) => Promise<RequestDTO>;
+    createRequest: (collectionId: number, requestCreationDTO: RequestCreationDTO) => Promise<RequestDTO>;
     updateRequest: (collectionId: number, requestId: string, requestDTO: RequestDTO) => Promise<RequestDTO>;
     deleteRequest: (collectionId: number, requestId: string) => Promise<void>;
 

@@ -3,6 +3,7 @@ import {FiAlertTriangle, FiTrash2} from "react-icons/fi";
 import RequestDTO from "../../types/model/RequestDTO";
 import {methodBgColors} from "../../config/config";
 import {useRequestCRUD} from "../../hooks/request/useRequestCRUD.ts";
+import {useSelectedRequest} from "../../hooks/request/useSelectedRequest.ts";
 
 interface RequestProps {
     requestDTO: RequestDTO;
@@ -11,6 +12,11 @@ interface RequestProps {
 const Request: React.FC<RequestProps> = ({requestDTO}) => {
     const {deleteRequest} = useRequestCRUD();
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const {setSelectedRequest} = useSelectedRequest();
+
+    const handleClick = () => {
+        setSelectedRequest(requestDTO);
+    };
 
     const handleDelete = () => {
         setIsDeleteModalOpen(false);
@@ -26,7 +32,7 @@ const Request: React.FC<RequestProps> = ({requestDTO}) => {
                         className={`px-2.5 py-1 rounded-full ${methodBgColors[requestDTO.method]} text-white font-semibold text-sm`}>
                         {requestDTO.method}
                     </span>
-                    <span className="text-gray-900 font-sm">{requestDTO.name}</span>
+                    <span onClick={handleClick} className="text-gray-900 font-sm cursor-pointer hover:bg-gray-20">{requestDTO.name}</span>
                 </div>
                 <button
                     onClick={() => setIsDeleteModalOpen(true)}

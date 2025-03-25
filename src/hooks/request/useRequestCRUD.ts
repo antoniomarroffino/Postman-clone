@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import {RequestCRUDContext} from "../../contexts/request/RequestCRUDContext.ts";
+import {RequestCRUDContext} from "../../contexts/request/RequestCRUDContext.tsx";
 
 export const useRequestCRUD = () => {
     const context = useContext(RequestCRUDContext);

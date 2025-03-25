@@ -10,6 +10,7 @@ import {ImagePreviewStrategy} from "./components/home/previewStrategy/strategy/I
 import {HtmlPreviewStrategy} from "./components/home/previewStrategy/strategy/HtmlPreviewStrategy.tsx";
 import {HttpProvider} from "./provider/HttpProvider.tsx";
 import {RequestCRUDProvider} from "./provider/request/RequestCRUDProvider.tsx";
+import {SelectedRequestProvider} from "./provider/request/SelectedRequestProvider.tsx";
 
 const queryClient = new QueryClient();
 
@@ -27,21 +28,23 @@ function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <CollectionsProvider>
-                <RequestCRUDProvider>
-                    <FileProvider>
-                        <HttpProvider>
-                            <PreviewProvider>
-                                <PreviewRegistrar/>
-                                <HttpClient
-                                    url=""
-                                    search={true}
-                                    collections={true}
-                                    onResponseMessageClick={(response) => alert(response.status)}
-                                />
-                            </PreviewProvider>
-                        </HttpProvider>
-                    </FileProvider>
-                </RequestCRUDProvider>
+                <SelectedRequestProvider>
+                    <RequestCRUDProvider>
+                        <FileProvider>
+                            <HttpProvider>
+                                <PreviewProvider>
+                                    <PreviewRegistrar/>
+                                    <HttpClient
+                                        url=""
+                                        search={true}
+                                        collections={true}
+                                        onResponseMessageClick={(response) => alert(response.status)}
+                                    />
+                                </PreviewProvider>
+                            </HttpProvider>
+                        </FileProvider>
+                    </RequestCRUDProvider>
+                </SelectedRequestProvider>
             </CollectionsProvider>
         </QueryClientProvider>
     );
