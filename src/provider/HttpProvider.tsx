@@ -107,7 +107,7 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
           let data = await response.text();
           try {
             data = JSON.stringify(JSON.parse(data), null, 2);
-          } catch {}
+          } catch { /* empty */ }
 
           const responseData: HttpResponseDTO = {
             status: `${response.status} ${response.statusText}`,

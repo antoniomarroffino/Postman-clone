@@ -1,0 +1,103 @@
+import {RequestCRUDContext} from "../../contexts/request/RequestCRUDContext.ts";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import RequestDTO from "../../types/model/RequestDTO.ts";
+import {apiKey} from "../../config/config.ts";
+
+export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
+    const queryClient = useQueryClient();
+
+    const createMutation = useMutation({
+        mutationFn: async ({ collectionId, requestDTO }: { collectionId: number, requestDTO: RequestDTO }) => {
+            const response = await fetch(
+                `${
+                    import.meta.env.VITE_BACKEND_BASE_URL
+                }/bff/collections/${collectionId}/requests?apiKey=${apiKey}`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(requestDTO),
+                }
+            );
+            if (!response.ok) {
+                throw new Error("Failed to create request");
+            }
+            return await response.json();
+        },
+        onSuccess: (_data, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: ['requests', variables.collectionId]
+            });
+        }
+    });
+
+    const updateMutation = useMutation({
+        mutationFn: async ({ collectionId, requestId, requestDTO }: { collectionId: number, requestId: string, requestDTO: RequestDTO }) => {
+            const response = await fetch(
+                `${
+                    import.meta.env.VITE_BACKEND_BASE_URL
+                }/bff/requests/${requestId}?collectionId=${collectionId}&apiKey=${apiKey}`,
+                {
+                    method: "PUT",
+                    body: JSON.stringify(requestDTO),
+                }
+            );
+            if (!response.ok) {
+                throw new Error("Failed to update request");
+            }
+            return await response.json();
+        },
+        onSuccess: (_data, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: ['requests', variables.collectionId]
+            });
+        }
+    });
+
+    const deleteMutation = useMutation<void, Error, {collectionId: number, requestId: string}>({
+        mutationFn: async ({requestId}) => {
+            await fetch(
+                `${
+                    import.meta.env.VITE_BACKEND_BASE_URL
+                }/bff/requests/${requestId}?apiKey=${apiKey}`,
+                {
+                    method: "DELETE",
+                }
+            );
+        },
+        onSuccess: (_data, variables) => {
+            queryClient.setQueryData(['requests', variables.collectionId],
+                (oldData: RequestDTO[] | undefined) =>
+                    oldData?.filter(request => request.id !== variables.requestId) || []
+            );
+        }
+    });
+
+    const createRequest = async (collectionId: number, requestDTO: RequestDTO) => {
+        return createMutation.mutateAsync({ collectionId, requestDTO });
+    };
+
+    const updateRequest = async (collectionId: number, requestId: string, requestDTO: RequestDTO) => {
+        return updateMutation.mutateAsync({ collectionId, requestId, requestDTO });
+    };
+
+    const deleteRequest = async (collectionId: number, requestId: string) => {
+        return deleteMutation.mutateAsync({collectionId, requestId});
+    };
+
+    const value = {
+        createRequest,
+        updateRequest,
+        deleteRequest,
+        isCreatingRequest: () => createMutation.isPending,
+        isUpdatingRequest: () => updateMutation.isPending,
+        isDeletingRequest: () => deleteMutation.isPending,
+        errorCreateRequest: createMutation.error,
+        errorUpdateRequest: updateMutation.error,
+        errorDeleteRequest: deleteMutation.error,
+    };
+
+    return (
+        <RequestCRUDContext.Provider value={value}>
+            {children}
+        </RequestCRUDContext.Provider>
+    );
+};
