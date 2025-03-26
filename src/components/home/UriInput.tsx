@@ -10,7 +10,7 @@ const UriInput: React.FC<UriInputProps> = ({initialUri}) => {
 
     useEffect(() => {
         actions.setUri(initialUri);
-    }, [initialUri, actions]);
+    }, [initialUri]);
 
     return (
         <input

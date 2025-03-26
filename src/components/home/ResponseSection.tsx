@@ -1,8 +1,9 @@
-import { FC, useState } from "react";
+import {FC, useEffect, useState} from "react";
 import { useHttp } from "../../hooks/useHttp.ts";
 import { usePreview } from "../../hooks/usePreview.ts";
 import { DefaultPreviewStrategy } from "./previewStrategy/strategy/DefaultPreviewStrategy.tsx";
 import { getContentType } from "../../utils/contentTypeUtils.ts";
+import {useSelectedRequest} from "../../hooks/request/useSelectedRequest.ts";
 
 const StatusBadge: FC<{ status: string }> = ({ status }) => {
   const statusCode = parseInt(status.split(" ")[0]);
@@ -26,6 +27,11 @@ const ResponseSection: FC = () => {
   const { strategies } = usePreview();
   const [viewMode, setViewMode] = useState<"raw" | "preview">("raw");
   const response = state.response;
+  const { selectedRequest } = useSelectedRequest();
+
+  useEffect(() => {
+    setViewMode("raw");
+  }, [selectedRequest?.id]);
 
   const formatSize = (bytes: number) => {
     if (bytes === 0) return "0 B";

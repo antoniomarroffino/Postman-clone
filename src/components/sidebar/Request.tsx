@@ -4,6 +4,7 @@ import RequestDTO from "../../types/model/RequestDTO";
 import {methodBgColors} from "../../config/config";
 import {useRequestCRUD} from "../../hooks/request/useRequestCRUD.ts";
 import {useSelectedRequest} from "../../hooks/request/useSelectedRequest.ts";
+import clsx from "clsx";
 
 interface RequestProps {
     requestDTO: RequestDTO;
@@ -12,10 +13,15 @@ interface RequestProps {
 const Request: React.FC<RequestProps> = ({requestDTO}) => {
     const {deleteRequest} = useRequestCRUD();
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const {setSelectedRequest} = useSelectedRequest();
+    const {selectedRequest, setSelectedRequest, deselectRequest} = useSelectedRequest();
+
+    const isSelected = selectedRequest?.id === requestDTO.id;
 
     const handleClick = () => {
-        setSelectedRequest(requestDTO);
+        if (isSelected)
+            deselectRequest();
+        else
+            setSelectedRequest(requestDTO);
     };
 
     const handleDelete = () => {
@@ -26,17 +32,36 @@ const Request: React.FC<RequestProps> = ({requestDTO}) => {
     return (
         <>
             <div
-                className="flex items-center justify-between p-2 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-                <div className="flex items-center gap-2.5">
+                className={clsx(
+                    "flex items-center justify-between p-2 bg-white border rounded-lg",
+                    "shadow-sm hover:shadow-md transition-all duration-300",
+                    {
+                        "border-primary bg-gradient-to-r from-primary/10 to-primary/5": isSelected,
+                        "border-gray-200": !isSelected
+                    }
+                )}
+            >
+                <div className="flex items-center gap-2.5 flex-1">
+    <span
+        className={`px-2.5 py-1 rounded-full ${
+            methodBgColors[requestDTO.method]
+        } text-white font-semibold text-sm`}
+    >
+      {requestDTO.method}
+    </span>
                     <span
-                        className={`px-2.5 py-1 rounded-full ${methodBgColors[requestDTO.method]} text-white font-semibold text-sm`}>
-                        {requestDTO.method}
-                    </span>
-                    <span onClick={handleClick} className="text-gray-900 font-sm cursor-pointer hover:bg-gray-20">{requestDTO.name}</span>
+                        onClick={handleClick}
+                        className="text-gray-900 font-sm cursor-pointer flex items-center gap-2 group"
+                    >
+      {requestDTO.name}
+    </span>
                 </div>
                 <button
-                    onClick={() => setIsDeleteModalOpen(true)}
-                    className="text-red-500 hover:text-red-600 transition-colors"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setIsDeleteModalOpen(true);
+                    }}
+                    className="text-red-500 hover:text-red-600 transition-colors bg-transparent"
                     aria-label="Delete request"
                 >
                     <FiTrash2 size={15}/>
@@ -68,7 +93,7 @@ const Request: React.FC<RequestProps> = ({requestDTO}) => {
                                 className="btn btn-error flex-1 gap-2 text-red-500"
                                 aria-label="Confirm deletion"
                             >
-                                <FiTrash2 className="w-4 h-4" />
+                                <FiTrash2 className="w-4 h-4"/>
                                 Delete
                             </button>
                         </div>

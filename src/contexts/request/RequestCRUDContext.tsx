@@ -7,9 +7,9 @@ export type RequestCRUDContextType = {
     updateRequest: (collectionId: number, requestId: string, requestDTO: RequestDTO) => Promise<RequestDTO>;
     deleteRequest: (collectionId: number, requestId: string) => Promise<void>;
 
-    isCreatingRequest: () => boolean;
-    isUpdatingRequest: () => boolean;
-    isDeletingRequest: () => boolean;
+    isCreatingRequest: boolean;
+    isUpdatingRequest: boolean;
+    isDeletingRequest: boolean;
 
     errorCreateRequest: Error | null;
     errorUpdateRequest: Error | null;

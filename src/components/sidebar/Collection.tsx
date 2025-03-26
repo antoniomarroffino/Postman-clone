@@ -220,9 +220,9 @@ const Collection: React.FC<RequestCollection> = ({id, name}) => {
                                     <button
                                         type="submit"
                                         className="btn btn-primary flex-1 gap-2 transform transition-all active:scale-98"
-                                        disabled={!newRequestName.trim() || !isCreatingRequest}
+                                        disabled={!newRequestName.trim() || isCreatingRequest}
                                     >
-                                        {!isCreatingRequest ? (
+                                        {isCreatingRequest ? (
                                             <span className="loading loading-spinner"></span>
                                         ) : (
                                             <>

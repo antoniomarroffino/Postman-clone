@@ -6,6 +6,7 @@ import HeadersTable from "./home/HeadersTable.tsx";
 import RequestBody from "./home/RequestBody.tsx";
 import ResponseSection from "./home/ResponseSection.tsx";
 import {FaRocket} from "react-icons/fa";
+import SaveButton from "./home/SaveButton.tsx";
 
 const Home = () => {
     const { selectedRequest } = useSelectedRequest();
@@ -35,7 +36,10 @@ const Home = () => {
             <div className="flex gap-2 flex-wrap">
                 <MethodDropdown initialMethod={selectedRequest.method} />
                 <UriInput initialUri={selectedRequest.uri} />
-                <SendButton />
+                <div className="flex gap-2">
+                    <SendButton />
+                    <SaveButton />
+                </div>
             </div>
 
             <div className="flex gap-4 flex-1 overflow-hidden">

@@ -1,4 +1,4 @@
-import {HttpResponseDTO} from "./HttpResponseDTO";
+import {HttpResponseDTO} from "./HttpResponseDTO.ts";
 
 export interface HttpState {
     request: {

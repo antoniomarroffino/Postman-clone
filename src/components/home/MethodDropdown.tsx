@@ -17,7 +17,7 @@ const MethodDropdown: React.FC<MethodDropdownProps> = ({initialMethod}) => {
       console.warn(`Invalid initial method: ${initialMethod}`);
       actions.setMethod('GET');
     }
-  }, [initialMethod, actions.setMethod, actions]);
+  }, [initialMethod]);
 
   return (
     <div className="relative group">

@@ -1,4 +1,4 @@
-import { HttpResponseDTO } from "../model/HttpResponseDTO";
+import { HttpResponseDTO } from "../model/HttpResponseDTO.ts";
 
 export default interface HttpClientProps {
   url: string;

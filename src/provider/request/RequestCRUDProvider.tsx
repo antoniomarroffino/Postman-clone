@@ -7,7 +7,7 @@ import {useSelectedRequest} from "../../hooks/request/useSelectedRequest.ts";
 
 export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     const queryClient = useQueryClient();
-    const {selectedRequest, deselectRequest} = useSelectedRequest();
+    const {selectedRequest, setSelectedRequest, deselectRequest} = useSelectedRequest();
 
     const createMutation = useMutation({
         mutationFn: async ({ collectionId, requestCreationDTO }: { collectionId: number, requestCreationDTO: RequestCreationDTO }) => {
@@ -52,10 +52,18 @@ export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ chi
             }
             return await response.json();
         },
-        onSuccess: (_data, variables) => {
-            queryClient.invalidateQueries({
-                queryKey: ['requests', variables.collectionId]
-            });
+        onSuccess: (data, variables) => {
+            queryClient.setQueryData(
+                ['requests', variables.collectionId],
+                (old: RequestDTO[] | undefined) =>
+                    old?.map(request =>
+                        request.id === variables.requestId ? data : request
+                    ) || []
+            );
+            setSelectedRequest(variables.requestDTO);
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['requests'] });
         }
     });
 
@@ -97,9 +105,9 @@ export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ chi
         createRequest,
         updateRequest,
         deleteRequest,
-        isCreatingRequest: () => createMutation.isPending,
-        isUpdatingRequest: () => updateMutation.isPending,
-        isDeletingRequest: () => deleteMutation.isPending,
+        isCreatingRequest: createMutation.isPending,
+        isUpdatingRequest: updateMutation.isPending,
+        isDeletingRequest: deleteMutation.isPending,
         errorCreateRequest: createMutation.error,
         errorUpdateRequest: updateMutation.error,
         errorDeleteRequest: deleteMutation.error,

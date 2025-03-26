@@ -10,7 +10,7 @@ const RequestBody: React.FC<RequestBodyProps> = ({initialBody}) => {
 
   useEffect(() => {
     actions.setBody(initialBody);
-  }, [initialBody, actions]);
+  }, [initialBody]);
 
   return (
     <div className="flex-1 flex flex-col">
