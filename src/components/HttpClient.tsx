@@ -1,7 +1,27 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Home from "./Home";
 import Sidebar from "./Sidebar";
 import HttpClientProps from "../types/props/HttpClientProps";
+import {CollectionsProvider} from "../provider/CollectionProvider.tsx";
+import {SelectedRequestProvider} from "../provider/request/SelectedRequestProvider.tsx";
+import {RequestCRUDProvider} from "../provider/request/RequestCRUDProvider.tsx";
+import {FileProvider} from "../provider/FileProvider.tsx";
+import {HttpProvider} from "../provider/HttpProvider.tsx";
+import {PreviewProvider} from "../provider/PreviewProvider.tsx";
+import {usePreview} from "../hooks/usePreview.ts";
+import {ImagePreviewStrategy} from "./home/previewStrategy/strategy/ImagePreviewStrategy.tsx";
+import {HtmlPreviewStrategy} from "./home/previewStrategy/strategy/HtmlPreviewStrategy.tsx";
+
+const PreviewRegistrar: React.FC = () => {
+    const {registerStrategy} = usePreview();
+    useEffect(() => {
+        registerStrategy(new ImagePreviewStrategy());
+        registerStrategy(new HtmlPreviewStrategy());
+    }, [registerStrategy]);
+
+    return null;
+};
+
 
 const HttpClient: React.FC<HttpClientProps> = ({
                                                    url,
@@ -25,20 +45,34 @@ const HttpClient: React.FC<HttpClientProps> = ({
     }
 
     return (
-        <div className="grid grid-cols-16 h-screen">
-            {collections && (
-                <div className={`${sidebarClass}`}>
-                    <Sidebar
-                        showSearch={search}
-                        isOpen={isSidebarOpen}
-                        onToggle={toggleSidebar}
-                    />
-                </div>
-            )}
-            <div className={`${homeClass}`}>
-                <Home url={url} search={search} collections={collections} onResponseMessageClick={onResponseMessageClick} />
-            </div>
-        </div>
+        <CollectionsProvider>
+            <SelectedRequestProvider>
+                <RequestCRUDProvider>
+                    <FileProvider>
+                        <HttpProvider>
+                            <PreviewProvider>
+                                <PreviewRegistrar/>
+                                <div className="grid grid-cols-16 h-screen">
+                                    {collections && (
+                                        <div className={`${sidebarClass}`}>
+                                            <Sidebar
+                                                showSearch={search}
+                                                isOpen={isSidebarOpen}
+                                                onToggle={toggleSidebar}
+                                            />
+                                        </div>
+                                    )}
+                                    <div className={`${homeClass}`}>
+                                        <Home url={url} search={search} collections={collections}
+                                              onResponseMessageClick={onResponseMessageClick}/>
+                                    </div>
+                                </div>
+                            </PreviewProvider>
+                        </HttpProvider>
+                    </FileProvider>
+                </RequestCRUDProvider>
+            </SelectedRequestProvider>
+        </CollectionsProvider>
     );
 };
 
