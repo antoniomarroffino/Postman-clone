@@ -11,9 +11,6 @@ const HttpClient: React.FC<HttpClientProps> = ({
                                                }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-    console.log(onResponseMessageClick);
-    console.log(url);
-
     const toggleSidebar = () => {
         setIsSidebarOpen((prev) => !prev);
     };
@@ -39,7 +36,7 @@ const HttpClient: React.FC<HttpClientProps> = ({
                 </div>
             )}
             <div className={`${homeClass}`}>
-                <Home/>
+                <Home url={url} search={search} collections={collections} onResponseMessageClick={onResponseMessageClick} />
             </div>
         </div>
     );

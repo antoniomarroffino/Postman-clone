@@ -96,11 +96,10 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
                     request: { ...prev.request, body },
                 })),
 
-            sendRequest: async () => {
+            sendRequest: async (  onResponseMessageClick: (response: HttpResponseDTO) => void) => {
                 try {
                     setState((prev) => ({ ...prev, loading: true, error: undefined }));
 
-                    // Poiché gli headers sono già nel formato corretto, non serve convertirli
                     const httpRequestDTO = {
                         method: state.request.method,
                         uri: state.request.uri,
@@ -138,6 +137,8 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
                         response: responseData,
                         loading: false,
                     }));
+
+                    onResponseMessageClick(responseData);
                 } catch (err) {
                     const error = err instanceof Error ? err.message : "Unknown error";
                     setState((prev) => ({
@@ -148,7 +149,6 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
                 }
             },
         }),
-        // Includiamo tutte le proprietà di request perché sendRequest le utilizza
         [state.request]
     );
 

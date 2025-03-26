@@ -40,6 +40,7 @@ function App() {
                                         collections={true}
                                         onResponseMessageClick={(response) => alert(response.status)}
                                     />
+
                                 </PreviewProvider>
                             </HttpProvider>
                         </FileProvider>

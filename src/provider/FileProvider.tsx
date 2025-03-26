@@ -1,7 +1,7 @@
-import { FileContext } from "../contexts/FileContext.tsx";
-import React, { useState } from "react";
+import {FileContext} from "../contexts/FileContext.tsx";
+import React, {useState} from "react";
 import ExportedCollection from "../types/model/ExportedCollection.ts";
-import { useCollection } from "../hooks/useCollection.ts";
+import {useCollection} from "../hooks/useCollection.ts";
 import UnknownRequestDTO from "../types/model/unknown/UnknownRequestDTO.ts";
 import UnknownExportedData from "../types/model/unknown/UnknownExportedData.ts";
 import UnknownCollection from "../types/model/unknown/UnknownCollection.ts";
@@ -113,9 +113,7 @@ export const FileProvider: React.FC<{ children: React.ReactNode }> = ({
         throw new Error("Invalid file structure");
       }
 
-      const sanitizedName = sanitizeFileName(data.collection.name);
-
-      data.collection.name = sanitizedName;
+      data.collection.name = sanitizeFileName(data.collection.name);
 
       if (!isCollectionIdUnique(data.collection.id))
         data.collection.id = data.collection.id + new Date().getTime();

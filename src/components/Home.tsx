@@ -7,8 +7,9 @@ import RequestBody from "./home/RequestBody.tsx";
 import ResponseSection from "./home/ResponseSection.tsx";
 import {FaRocket} from "react-icons/fa";
 import SaveButton from "./home/SaveButton.tsx";
+import HttpClientProps from "../types/props/HttpClientProps.ts";
 
-const Home = () => {
+const Home: React.FC<HttpClientProps> = ({url, search, collections, onResponseMessageClick}) => {
     const { selectedRequest } = useSelectedRequest();
 
     if (!selectedRequest) {
@@ -37,7 +38,7 @@ const Home = () => {
                 <MethodDropdown />
                 <UriInput />
                 <div className="flex gap-2">
-                    <SendButton />
+                    <SendButton onResponseMessageClick={onResponseMessageClick}/>
                     <SaveButton />
                 </div>
             </div>
