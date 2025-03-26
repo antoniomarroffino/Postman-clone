@@ -1,13 +1,13 @@
-import { ReactNode, useEffect, useMemo, useState } from "react";
-import { HttpContext } from "../contexts/HttpContext";
-import { HttpState } from "../types/model/HttpState.ts";
-import { HttpActions } from "../types/model/HttpActions.ts";
-import { HttpResponseDTO } from "../types/model/HttpResponseDTO.ts";
+import {ReactNode, useEffect, useMemo, useState} from "react";
+import {HttpContext} from "../contexts/HttpContext";
+import {HttpState} from "../types/model/HttpState.ts";
+import {HttpActions} from "../types/model/HttpActions.ts";
+import {HttpResponseDTO} from "../types/model/HttpResponseDTO.ts";
 import RequestDTO from "../types/model/RequestDTO.ts";
-import { useSelectedRequest } from "../hooks/request/useSelectedRequest.ts";
+import {useSelectedRequest} from "../hooks/request/useSelectedRequest.ts";
 
-export const HttpProvider = ({ children }: { children: ReactNode }) => {
-    const { selectedRequest } = useSelectedRequest();
+export const HttpProvider = ({children}: { children: ReactNode }) => {
+    const {selectedRequest} = useSelectedRequest();
     const [state, setState] = useState<HttpState>({
         request: {
             id: crypto.randomUUID(),
@@ -40,13 +40,13 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
             setMethod: (method: string) =>
                 setState((prev) => ({
                     ...prev,
-                    request: { ...prev.request, method },
+                    request: {...prev.request, method},
                 })),
 
             setUri: (uri: string) =>
                 setState((prev) => ({
                     ...prev,
-                    request: { ...prev.request, uri },
+                    request: {...prev.request, uri},
                 })),
 
             addHeader: (key: string = "", value: string = "") =>
@@ -63,7 +63,7 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
 
             updateHeader: (oldKey: string, newKey: string, newValue: string) =>
                 setState((prev) => {
-                    const newHeaders = { ...prev.request.headers };
+                    const newHeaders = {...prev.request.headers};
                     if (oldKey !== newKey) {
                         delete newHeaders[oldKey];
                     }
@@ -79,7 +79,7 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
 
             removeHeader: (key: string) =>
                 setState((prev) => {
-                    const newHeaders = { ...prev.request.headers };
+                    const newHeaders = {...prev.request.headers};
                     delete newHeaders[key];
                     return {
                         ...prev,
@@ -93,12 +93,12 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
             setBody: (body: string) =>
                 setState((prev) => ({
                     ...prev,
-                    request: { ...prev.request, body },
+                    request: {...prev.request, body},
                 })),
 
-            sendRequest: async (  onResponseMessageClick: (response: HttpResponseDTO) => void) => {
+            sendRequest: async (onResponseMessageClick: (response: HttpResponseDTO) => void) => {
                 try {
-                    setState((prev) => ({ ...prev, loading: true, error: undefined }));
+                    setState((prev) => ({...prev, loading: true, error: undefined}));
 
                     const httpRequestDTO = {
                         method: state.request.method,
@@ -152,7 +152,7 @@ export const HttpProvider = ({ children }: { children: ReactNode }) => {
         [state.request]
     );
 
-    const value = useMemo(() => ({ state, actions }), [state, actions]);
+    const value = useMemo(() => ({state, actions}), [state, actions]);
 
     return (
         <HttpContext.Provider value={value}>

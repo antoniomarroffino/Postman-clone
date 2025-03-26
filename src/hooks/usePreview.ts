@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { PreviewContext } from "../contexts/PreviewContext";
+import {useContext} from "react";
+import {PreviewContext} from "../contexts/PreviewContext";
 
 export const usePreview = () => {
     const context = useContext(PreviewContext);

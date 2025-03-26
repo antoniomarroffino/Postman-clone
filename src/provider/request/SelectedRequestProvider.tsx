@@ -2,7 +2,7 @@ import {SelectedRequestContext} from "../../contexts/request/SelectedRequestCont
 import React, {useState} from "react";
 import RequestDTO from "../../types/model/RequestDTO.ts";
 
-export const SelectedRequestProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
+export const SelectedRequestProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const [selectedRequest, setSelectedRequest] = useState<RequestDTO | null>(null);
 
     const value = {

@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
-import { FiUpload, FiRefreshCw } from 'react-icons/fi';
-import { useFile } from "../../hooks/useFile.ts";
+import React, {useRef} from 'react';
+import {FiRefreshCw, FiUpload} from 'react-icons/fi';
+import {useFile} from "../../hooks/useFile.ts";
 
 const ImportButton: React.FC = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { importCollection, isImporting } = useFile();
+    const {importCollection, isImporting} = useFile();
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -37,9 +37,9 @@ const ImportButton: React.FC = () => {
             >
                 <div className="flex items-center gap-2">
                     {isImporting ? (
-                        <FiRefreshCw className="text-lg animate-spin text-primary" />
+                        <FiRefreshCw className="text-lg animate-spin text-primary"/>
                     ) : (
-                        <FiUpload className="text-lg" />
+                        <FiUpload className="text-lg"/>
                     )}
                     <span className="font-medium">
                         {isImporting ? 'Importing Collection...' : 'Import Collection'}
@@ -57,7 +57,7 @@ const ImportButton: React.FC = () => {
             {/* Hover effect */}
             {!isImporting && (
                 <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary/5 to-secondary/5
-                opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"/>
             )}
         </div>
     );

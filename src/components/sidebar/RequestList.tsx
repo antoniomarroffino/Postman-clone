@@ -1,4 +1,4 @@
-import { useRequestsList } from "../../hooks/request/useRequestList";
+import {useRequestsList} from "../../hooks/request/useRequestList";
 import Request from "./Request";
 import React from "react";
 import {FaExclamationTriangle} from "react-icons/fa";
@@ -8,7 +8,7 @@ interface RequestListProps {
 }
 
 const RequestList: React.FC<RequestListProps> = ({collectionId}) => {
-    const { data: requests, isLoading, error } = useRequestsList(collectionId);
+    const {data: requests, isLoading, error} = useRequestsList(collectionId);
 
     if (isLoading) {
         return (

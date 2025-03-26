@@ -5,12 +5,15 @@ import {apiKey} from "../../config/config.ts";
 import RequestCreationDTO from "../../types/model/RequestCreationDTO.ts";
 import {useSelectedRequest} from "../../hooks/request/useSelectedRequest.ts";
 
-export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
+export const RequestCRUDProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const queryClient = useQueryClient();
     const {selectedRequest, setSelectedRequest, deselectRequest} = useSelectedRequest();
 
     const createMutation = useMutation({
-        mutationFn: async ({ collectionId, requestCreationDTO }: { collectionId: number, requestCreationDTO: RequestCreationDTO }) => {
+        mutationFn: async ({collectionId, requestCreationDTO}: {
+            collectionId: number,
+            requestCreationDTO: RequestCreationDTO
+        }) => {
             const response = await fetch(
                 `${
                     import.meta.env.VITE_BACKEND_BASE_URL
@@ -37,7 +40,11 @@ export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ chi
     });
 
     const updateMutation = useMutation({
-        mutationFn: async ({requestId, requestDTO }: { collectionId: number, requestId: string, requestDTO: RequestDTO }) => {
+        mutationFn: async ({requestId, requestDTO}: {
+            collectionId: number,
+            requestId: string,
+            requestDTO: RequestDTO
+        }) => {
             const response = await fetch(
                 `${
                     import.meta.env.VITE_BACKEND_BASE_URL
@@ -45,7 +52,7 @@ export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ chi
                 {
                     method: "PUT",
                     headers: {
-                      "Content-Type": "application/json",
+                        "Content-Type": "application/json",
                     },
                     body: JSON.stringify(requestDTO),
                 }
@@ -67,7 +74,7 @@ export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ chi
         }
     });
 
-    const deleteMutation = useMutation<void, Error, {collectionId: number, requestId: string}>({
+    const deleteMutation = useMutation<void, Error, { collectionId: number, requestId: string }>({
         mutationFn: async ({requestId}) => {
             await fetch(
                 `${
@@ -84,17 +91,17 @@ export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ chi
                     oldData?.filter(request => request.id !== variables.requestId) || []
             );
 
-            if(selectedRequest?.id === variables.requestId)
+            if (selectedRequest?.id === variables.requestId)
                 deselectRequest();
         }
     });
 
     const createRequest = async (collectionId: number, requestCreationDTO: RequestCreationDTO) => {
-        return createMutation.mutateAsync({ collectionId, requestCreationDTO });
+        return createMutation.mutateAsync({collectionId, requestCreationDTO});
     };
 
     const updateRequest = async (collectionId: number, requestId: string, requestDTO: RequestDTO) => {
-        return updateMutation.mutateAsync({ collectionId, requestId, requestDTO });
+        return updateMutation.mutateAsync({collectionId, requestId, requestDTO});
     };
 
     const deleteRequest = async (collectionId: number, requestId: string) => {

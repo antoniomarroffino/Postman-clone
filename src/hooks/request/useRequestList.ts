@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import {apiKey} from "../../config/config.ts";
 import RequestDTO from "../../types/model/RequestDTO.ts";
 

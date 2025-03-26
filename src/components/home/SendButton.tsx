@@ -1,6 +1,6 @@
-import { FC } from "react";
-import { useHttp } from "../../hooks/useHttp";
-import { METHODS_REQUIRING_BODY } from "../../config/config.ts";
+import {FC} from "react";
+import {useHttp} from "../../hooks/useHttp";
+import {METHODS_REQUIRING_BODY} from "../../config/config.ts";
 import {HttpResponseDTO} from "../../types/model/HttpResponseDTO.ts";
 
 interface SendButtonProps {
@@ -8,7 +8,7 @@ interface SendButtonProps {
 }
 
 const SendButton: FC<SendButtonProps> = ({onResponseMessageClick}) => {
-    const { state, actions } = useHttp();
+    const {state, actions} = useHttp();
 
     const isValidRequest = () => {
         const hasValidUri = state.request.uri.startsWith('http://') ||

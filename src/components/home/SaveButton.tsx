@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { useHttp } from "../../hooks/useHttp";
-import { FaSave } from "react-icons/fa";
+import {FC} from "react";
+import {useHttp} from "../../hooks/useHttp";
+import {FaSave} from "react-icons/fa";
 import {useRequestCRUD} from "../../hooks/request/useRequestCRUD.ts";
 
 const SaveButton: FC = () => {
-    const { state } = useHttp();
+    const {state} = useHttp();
 
     const {updateRequest, isUpdatingRequest, errorUpdateRequest} = useRequestCRUD();
 
@@ -31,7 +31,7 @@ const SaveButton: FC = () => {
                 <span className="text-black">Saving...</span>
             ) : (
                 <>
-                    <FaSave className="w-4 h-4" />
+                    <FaSave className="w-4 h-4"/>
                     Save
                     {errorUpdateRequest && (
                         <span className="text-xs text-error">
