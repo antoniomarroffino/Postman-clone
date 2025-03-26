@@ -1,10 +1,30 @@
-import { FC } from "react";
 import { useHttp } from "../../hooks/useHttp";
 import HeaderRow from "./HeaderRow";
 import TableHeaderRow from "./TableHeaderRow";
+import {useEffect} from "react";
 
-const HeadersTable: FC = () => {
+interface HeadersTableProps {
+  initialHeaders: {
+    [key: string]: string[];
+  };
+}
+
+const HeadersTable: React.FC<HeadersTableProps> = ({initialHeaders}) => {
   const { state, actions } = useHttp();
+
+  useEffect(() => {
+    const headerEntries = Object.entries(initialHeaders);
+
+    state.request.headers.forEach((_, index) => {
+      actions.removeHeader(index);
+    });
+
+    headerEntries.forEach(([key, values], index) => {
+      actions.addHeader();
+      actions.updateHeader(index, 'key', key);
+      values.forEach(v => actions.updateHeader(index, 'value', v));
+    });
+  }, [initialHeaders]);
 
   return (
     <div className="w-1/2 flex flex-col">

@@ -3,9 +3,11 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import RequestDTO from "../../types/model/RequestDTO.ts";
 import {apiKey} from "../../config/config.ts";
 import RequestCreationDTO from "../../types/model/RequestCreationDTO.ts";
+import {useSelectedRequest} from "../../hooks/request/useSelectedRequest.ts";
 
 export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     const queryClient = useQueryClient();
+    const {selectedRequest, deselectRequest} = useSelectedRequest();
 
     const createMutation = useMutation({
         mutationFn: async ({ collectionId, requestCreationDTO }: { collectionId: number, requestCreationDTO: RequestCreationDTO }) => {
@@ -73,6 +75,9 @@ export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ chi
                 (oldData: RequestDTO[] | undefined) =>
                     oldData?.filter(request => request.id !== variables.requestId) || []
             );
+
+            if(selectedRequest?.id === variables.requestId)
+                deselectRequest();
         }
     });
 

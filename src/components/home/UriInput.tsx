@@ -1,8 +1,16 @@
-import { FC } from "react";
 import { useHttp } from "../../hooks/useHttp";
+import {useEffect} from "react";
 
-const UriInput: FC = () => {
+interface UriInputProps {
+    initialUri: string;
+}
+
+const UriInput: React.FC<UriInputProps> = ({initialUri}) => {
     const { state, actions } = useHttp();
+
+    useEffect(() => {
+        actions.setUri(initialUri);
+    }, [initialUri, actions]);
 
     return (
         <input

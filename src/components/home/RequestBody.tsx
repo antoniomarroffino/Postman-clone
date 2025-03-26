@@ -1,8 +1,16 @@
-import { FC } from "react";
 import { useHttp } from "../../hooks/useHttp";
+import {useEffect} from "react";
 
-const RequestBody: FC = () => {
+interface RequestBodyProps {
+    initialBody: string;
+}
+
+const RequestBody: React.FC<RequestBodyProps> = ({initialBody}) => {
   const { state, actions } = useHttp();
+
+  useEffect(() => {
+    actions.setBody(initialBody);
+  }, [initialBody, actions]);
 
   return (
     <div className="flex-1 flex flex-col">
