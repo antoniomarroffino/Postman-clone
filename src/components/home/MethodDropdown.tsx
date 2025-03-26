@@ -1,23 +1,10 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import { useHttp } from "../../hooks/useHttp";
 import { methodBgColors, methodColors, methods } from "../../config/config";
 
-interface MethodDropdownProps {
-  initialMethod: string;
-}
-
-const MethodDropdown: React.FC<MethodDropdownProps> = ({initialMethod}) => {
+const MethodDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { state, actions } = useHttp();
-
-  useEffect(() => {
-    if (methods.includes(initialMethod)) {
-      actions.setMethod(initialMethod);
-    } else {
-      console.warn(`Invalid initial method: ${initialMethod}`);
-      actions.setMethod('GET');
-    }
-  }, [initialMethod]);
 
   return (
     <div className="relative group">

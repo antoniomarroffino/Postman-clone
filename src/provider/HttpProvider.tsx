@@ -1,32 +1,38 @@
-import {ReactNode, useEffect, useMemo, useState} from "react";
-import {HttpContext} from "../contexts/HttpContext";
-import {HttpState} from "../types/model/HttpState.ts";
-import {HttpActions} from "../types/model/HttpActions.ts";
-import {HttpResponseDTO} from "../types/model/HttpResponseDTO.ts";
-import {HttpRequestDTO} from "../types/model/HttpRequestDTO.ts";
-import {useSelectedRequest} from "../hooks/request/useSelectedRequest.ts";
+import { ReactNode, useEffect, useMemo, useState } from "react";
+import { HttpContext } from "../contexts/HttpContext";
+import { HttpState } from "../types/model/HttpState.ts";
+import { HttpActions } from "../types/model/HttpActions.ts";
+import { HttpResponseDTO } from "../types/model/HttpResponseDTO.ts";
+import RequestDTO from "../types/model/RequestDTO.ts";
+import { useSelectedRequest } from "../hooks/request/useSelectedRequest.ts";
 
-export const HttpProvider = ({children}: { children: ReactNode }) => {
-    const {selectedRequest} = useSelectedRequest();
+export const HttpProvider = ({ children }: { children: ReactNode }) => {
+    const { selectedRequest } = useSelectedRequest();
     const [state, setState] = useState<HttpState>({
         request: {
-            method: "GET",
+            id: crypto.randomUUID(),
+            name: "",
             uri: "",
-            headers: [],
+            method: "GET",
+            headers: {},
             body: "",
-        },
+            collectionId: 0,
+        } as RequestDTO,
         loading: false,
         error: undefined,
         response: undefined,
     });
 
     useEffect(() => {
-
-        setState(prev => ({
-            ...prev,
-            response: undefined,
-            error: undefined
-        }));
+        if (selectedRequest) {
+            setState((prev) => ({
+                ...prev,
+                request: selectedRequest,
+                response: undefined,
+                error: undefined,
+                loading: false,
+            }));
+        }
     }, [selectedRequest?.id]);
 
     const actions: HttpActions = useMemo(
@@ -34,28 +40,34 @@ export const HttpProvider = ({children}: { children: ReactNode }) => {
             setMethod: (method: string) =>
                 setState((prev) => ({
                     ...prev,
-                    request: {...prev.request, method},
+                    request: { ...prev.request, method },
                 })),
 
             setUri: (uri: string) =>
                 setState((prev) => ({
                     ...prev,
-                    request: {...prev.request, uri},
+                    request: { ...prev.request, uri },
                 })),
 
-            addHeader: () =>
+            addHeader: (key: string = "", value: string = "") =>
                 setState((prev) => ({
                     ...prev,
                     request: {
                         ...prev.request,
-                        headers: [...prev.request.headers, {key: "", value: ""}],
+                        headers: {
+                            ...prev.request.headers,
+                            [key]: value ? [value] : [],
+                        },
                     },
                 })),
 
-            updateHeader: (index: number, field: "key" | "value", value: string) => {
+            updateHeader: (oldKey: string, newKey: string, newValue: string) =>
                 setState((prev) => {
-                    const newHeaders = [...prev.request.headers];
-                    newHeaders[index] = {...newHeaders[index], [field]: value};
+                    const newHeaders = { ...prev.request.headers };
+                    if (oldKey !== newKey) {
+                        delete newHeaders[oldKey];
+                    }
+                    newHeaders[newKey] = newValue ? [newValue] : [];
                     return {
                         ...prev,
                         request: {
@@ -63,45 +75,36 @@ export const HttpProvider = ({children}: { children: ReactNode }) => {
                             headers: newHeaders,
                         },
                     };
-                });
-            },
+                }),
 
-            removeHeader: (index: number) =>
-                setState((prev) => ({
-                    ...prev,
-                    request: {
-                        ...prev.request,
-                        headers: prev.request.headers.filter((_, i: number) => i !== index),
-                    },
-                })),
+            removeHeader: (key: string) =>
+                setState((prev) => {
+                    const newHeaders = { ...prev.request.headers };
+                    delete newHeaders[key];
+                    return {
+                        ...prev,
+                        request: {
+                            ...prev.request,
+                            headers: newHeaders,
+                        },
+                    };
+                }),
 
             setBody: (body: string) =>
                 setState((prev) => ({
                     ...prev,
-                    request: {...prev.request, body},
+                    request: { ...prev.request, body },
                 })),
 
             sendRequest: async () => {
                 try {
-                    setState((prev) => ({...prev, loading: true, error: undefined}));
+                    setState((prev) => ({ ...prev, loading: true, error: undefined }));
 
-                    const convertedHeaders = state.request.headers.reduce<
-                        Record<string, string[]>
-                    >((acc, {key, value}) => {
-                        if (key.trim() && value.trim()) {
-                            if (acc[key]) {
-                                acc[key].push(value);
-                            } else {
-                                acc[key] = [value];
-                            }
-                        }
-                        return acc;
-                    }, {});
-
-                    const httpRequestDTO: HttpRequestDTO = {
+                    // Poiché gli headers sono già nel formato corretto, non serve convertirli
+                    const httpRequestDTO = {
                         method: state.request.method,
                         uri: state.request.uri,
-                        headers: convertedHeaders,
+                        headers: state.request.headers,
                         body: state.request.method === "GET" ? "" : state.request.body,
                     };
 
@@ -118,7 +121,8 @@ export const HttpProvider = ({children}: { children: ReactNode }) => {
                     let data = await response.text();
                     try {
                         data = JSON.stringify(JSON.parse(data), null, 2);
-                    } catch { /* empty */
+                    } catch {
+                        /* empty */
                     }
 
                     const responseData: HttpResponseDTO = {
@@ -144,15 +148,15 @@ export const HttpProvider = ({children}: { children: ReactNode }) => {
                 }
             },
         }),
-        [
-            state.request.method,
-            state.request.uri,
-            state.request.headers,
-            state.request.body,
-        ]
+        // Includiamo tutte le proprietà di request perché sendRequest le utilizza
+        [state.request]
     );
 
-    const value = useMemo(() => ({state, actions}), [state, actions]);
+    const value = useMemo(() => ({ state, actions }), [state, actions]);
 
-    return <HttpContext.Provider value={value}>{children}</HttpContext.Provider>;
+    return (
+        <HttpContext.Provider value={value}>
+            {children}
+        </HttpContext.Provider>
+    );
 };

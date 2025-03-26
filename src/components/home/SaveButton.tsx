@@ -9,7 +9,8 @@ const SaveButton: FC = () => {
     const {updateRequest, isUpdatingRequest, errorUpdateRequest} = useRequestCRUD();
 
     const handleSave = () => {
-        console.log("save: " + state.request);
+        console.log(state.request);
+        updateRequest(state.request.collectionId, state.request.id, state.request);
     }
 
     return (

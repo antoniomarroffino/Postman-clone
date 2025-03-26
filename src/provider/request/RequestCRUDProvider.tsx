@@ -37,13 +37,16 @@ export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ chi
     });
 
     const updateMutation = useMutation({
-        mutationFn: async ({ collectionId, requestId, requestDTO }: { collectionId: number, requestId: string, requestDTO: RequestDTO }) => {
+        mutationFn: async ({requestId, requestDTO }: { collectionId: number, requestId: string, requestDTO: RequestDTO }) => {
             const response = await fetch(
                 `${
                     import.meta.env.VITE_BACKEND_BASE_URL
-                }/bff/requests/${requestId}?collectionId=${collectionId}&apiKey=${apiKey}`,
+                }/bff/requests/${requestId}?apiKey=${apiKey}`,
                 {
                     method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
                     body: JSON.stringify(requestDTO),
                 }
             );
@@ -61,9 +64,6 @@ export const RequestCRUDProvider: React.FC<{children: React.ReactNode}> = ({ chi
                     ) || []
             );
             setSelectedRequest(variables.requestDTO);
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ['requests'] });
         }
     });
 

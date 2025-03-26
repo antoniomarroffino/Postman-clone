@@ -34,8 +34,8 @@ const Home = () => {
     return (
         <div className="p-4 h-full flex flex-col gap-4">
             <div className="flex gap-2 flex-wrap">
-                <MethodDropdown initialMethod={selectedRequest.method} />
-                <UriInput initialUri={selectedRequest.uri} />
+                <MethodDropdown />
+                <UriInput />
                 <div className="flex gap-2">
                     <SendButton />
                     <SaveButton />
@@ -43,8 +43,8 @@ const Home = () => {
             </div>
 
             <div className="flex gap-4 flex-1 overflow-hidden">
-                <HeadersTable initialHeaders={selectedRequest.headers} />
-                <RequestBody initialBody={selectedRequest.body} />
+                <HeadersTable />
+                <RequestBody />
             </div>
 
             <ResponseSection />
