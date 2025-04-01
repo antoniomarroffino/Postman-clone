@@ -8,6 +8,7 @@ import ResponseSection from "./home/ResponseSection.tsx";
 import SaveButton from "./home/SaveButton.tsx";
 import HttpClientProps from "../types/props/HttpClientProps.ts";
 import AnyContent from "./home/AnyContent.tsx";
+import React from "react";
 
 const Home: React.FC<HttpClientProps> = ({url, collections, onResponseMessageClick}) => {
     const {selectedRequest} = useSelectedRequest();
