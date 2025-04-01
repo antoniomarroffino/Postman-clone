@@ -1,5 +1,7 @@
 import {createContext} from "react";
 
-type UrlContextType = {};
+type UrlContextType = {
+    url: string;
+};
 
 export const UrlContext = createContext<UrlContextType | undefined>(undefined);

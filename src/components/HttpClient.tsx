@@ -46,7 +46,7 @@ const HttpClient: React.FC<HttpClientProps> = ({
     }
 
     return (
-        <UrlProvider>
+        <UrlProvider url={url}>
             <CollectionsProvider>
                 <SelectedRequestProvider>
                     <RequestCRUDProvider>
