@@ -1,15 +1,13 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SidebarProps from "../types/props/SidebarProps";
-import {FiFolder, FiMenu, FiSearch, FiUpload, FiX} from "react-icons/fi";
+import { FiFolder, FiMenu, FiSearch, FiUpload, FiX } from "react-icons/fi";
 import CollectionList from "./sidebar/CollectionList";
 import ImportButton from "./sidebar/ImportButton.tsx";
 
-const Sidebar: React.FC<SidebarProps> = ({showSearch, isOpen, onToggle}) => {
+const Sidebar: React.FC<SidebarProps> = ({ showSearch, isOpen, onToggle }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
-    const [lastAction, setLastAction] = useState<
-        "menu" | "search" | "folder" | "import" | null
-    >(null);
+    const [lastAction, setLastAction] = useState<"menu" | "search" | "folder" | "import" | null>(null);
 
     const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -33,10 +31,8 @@ const Sidebar: React.FC<SidebarProps> = ({showSearch, isOpen, onToggle}) => {
 
     return (
         <div
-            className={`bg-gray-100 h-full border-r border-gray-200 flex flex-col 
-            transition-all duration-300 ease-in-out`}
+            className={`bg-gray-100 h-full max-h-screen border-r border-gray-200 flex flex-col overflow-y-auto transition-all duration-300 ease-in-out`}
         >
-            {/* Top Section */}
             <div className="p-4 border-b border-gray-300 h-[120px] flex-shrink-0">
                 {isOpen ? (
                     <>
@@ -49,14 +45,15 @@ const Sidebar: React.FC<SidebarProps> = ({showSearch, isOpen, onToggle}) => {
                                 }}
                                 className="btn btn-ghost"
                             >
-                                <FiX size={15}/>
+                                <FiX size={15} />
                             </button>
                         </div>
                         {showSearch && (
                             <div className="mt-4">
                                 <div className="relative">
                                     <FiSearch
-                                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"/>
+                                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                    />
                                     <input
                                         ref={searchInputRef}
                                         type="text"
@@ -79,7 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({showSearch, isOpen, onToggle}) => {
                                 }}
                                 className="btn btn-ghost p-2"
                             >
-                                <FiMenu size={15}/>
+                                <FiMenu size={15} />
                             </button>
                             {showSearch && (
                                 <button
@@ -89,7 +86,7 @@ const Sidebar: React.FC<SidebarProps> = ({showSearch, isOpen, onToggle}) => {
                                     }}
                                     className="btn btn-ghost p-2"
                                 >
-                                    <FiSearch size={15}/>
+                                    <FiSearch size={15} />
                                 </button>
                             )}
                         </div>
@@ -97,20 +94,19 @@ const Sidebar: React.FC<SidebarProps> = ({showSearch, isOpen, onToggle}) => {
                 )}
             </div>
 
-            {/* Scrollable Content + Import Button */}
-            <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="flex-1 flex flex-col">
                 {isOpen ? (
                     <>
                         <div className="flex-1 overflow-y-auto p-2">
-                            <CollectionList searchQuery={debouncedSearchQuery}/>
+                            <CollectionList searchQuery={debouncedSearchQuery} />
                         </div>
-                        <div className="sticky bottom-0 bg-gray-100 border-t border-gray-200 p-4 mt-auto">
-                            <ImportButton/>
+                        <div className="sticky bottom-0 bg-gray-100 border-t border-gray-200 p-4">
+                            <ImportButton />
                         </div>
                     </>
                 ) : (
                     <>
-                        <div className="flex-1 justify-center overflow-y-auto p-2">
+                        <div className="flex-1 flex justify-center overflow-y-auto p-2">
                             <button
                                 onClick={() => {
                                     onToggle();
@@ -118,10 +114,10 @@ const Sidebar: React.FC<SidebarProps> = ({showSearch, isOpen, onToggle}) => {
                                 }}
                                 className="btn btn-ghost p-2"
                             >
-                                <FiFolder size={15}/>
+                                <FiFolder size={15} />
                             </button>
                         </div>
-                        <div className="sticky bottom-0 bg-gray-100 border-t border-gray-200 p-4 mt-auto">
+                        <div className="sticky bottom-0 bg-gray-100 border-t border-gray-200 p-4">
                             <button
                                 onClick={() => {
                                     onToggle();
@@ -129,7 +125,7 @@ const Sidebar: React.FC<SidebarProps> = ({showSearch, isOpen, onToggle}) => {
                                 }}
                                 className="btn btn-ghost p-2"
                             >
-                                <FiUpload/>
+                                <FiUpload />
                             </button>
                         </div>
                     </>
