@@ -7,7 +7,6 @@ type CollectionContextType = {
     error: unknown;
     refetch: () => void;
     addNewCollection: (newCollection: RequestCollection) => void;
-    isCollectionIdUnique: (collectionId: number) => boolean;
 };
 
 export const CollectionsContext = createContext<

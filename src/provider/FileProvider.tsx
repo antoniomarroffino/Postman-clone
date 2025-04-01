@@ -12,7 +12,7 @@ export const FileProvider: React.FC<{ children: React.ReactNode }> = ({
     const [isImporting, setIsImporting] = useState(false);
     const [isExporting, setIsExporting] = useState(false);
     const [error, setError] = useState<unknown>(null);
-    const {addNewCollection, isCollectionIdUnique} = useCollection();
+    const {addNewCollection} = useCollection();
 
     const isValidExportedCollection = (
         data: unknown
@@ -107,9 +107,6 @@ export const FileProvider: React.FC<{ children: React.ReactNode }> = ({
             }
 
             data.collection.name = sanitizeFileName(data.collection.name);
-
-            if (!isCollectionIdUnique(data.collection.id))
-                data.collection.id = data.collection.id + new Date().getTime();
 
             addNewCollection(data.collection);
         } catch (err) {

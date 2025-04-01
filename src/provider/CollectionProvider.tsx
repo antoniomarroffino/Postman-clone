@@ -35,10 +35,6 @@ export const CollectionsProvider: React.FC<{ children: React.ReactNode }> = ({
         setCollections((prev) => [...prev, newCollection]);
     };
 
-    const isCollectionIdUnique = (collectionId: number): boolean => {
-        return collections.filter((col) => col.id === collectionId).length === 0;
-    };
-
     useEffect(() => {
         fetchCollections();
     }, [fetchCollections]);
@@ -49,7 +45,6 @@ export const CollectionsProvider: React.FC<{ children: React.ReactNode }> = ({
         error,
         refetch: fetchCollections,
         addNewCollection,
-        isCollectionIdUnique,
     };
 
     return (
