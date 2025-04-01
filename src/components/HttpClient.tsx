@@ -11,6 +11,7 @@ import {PreviewProvider} from "../provider/PreviewProvider.tsx";
 import {usePreview} from "../hooks/usePreview.ts";
 import {ImagePreviewStrategy} from "./home/previewStrategy/strategy/ImagePreviewStrategy.tsx";
 import {HtmlPreviewStrategy} from "./home/previewStrategy/strategy/HtmlPreviewStrategy.tsx";
+import {UrlProvider} from "../provider/UrlProvider.tsx";
 
 const PreviewRegistrar: React.FC = () => {
     const {registerStrategy} = usePreview();
@@ -45,34 +46,36 @@ const HttpClient: React.FC<HttpClientProps> = ({
     }
 
     return (
-        <CollectionsProvider>
-            <SelectedRequestProvider>
-                <RequestCRUDProvider>
-                    <FileProvider>
-                        <HttpProvider>
-                            <PreviewProvider>
-                                <PreviewRegistrar/>
-                                <div className="grid grid-cols-16 h-screen">
-                                    {collections && (
-                                        <div className={`${sidebarClass}`}>
-                                            <Sidebar
-                                                showSearch={search}
-                                                isOpen={isSidebarOpen}
-                                                onToggle={toggleSidebar}
-                                            />
+        <UrlProvider>
+            <CollectionsProvider>
+                <SelectedRequestProvider>
+                    <RequestCRUDProvider>
+                        <FileProvider>
+                            <HttpProvider>
+                                <PreviewProvider>
+                                    <PreviewRegistrar/>
+                                    <div className="grid grid-cols-16 h-screen">
+                                        {collections && (
+                                            <div className={`${sidebarClass}`}>
+                                                <Sidebar
+                                                    showSearch={search}
+                                                    isOpen={isSidebarOpen}
+                                                    onToggle={toggleSidebar}
+                                                />
+                                            </div>
+                                        )}
+                                        <div className={`${homeClass}`}>
+                                            <Home url={url} search={search} collections={collections}
+                                                  onResponseMessageClick={onResponseMessageClick}/>
                                         </div>
-                                    )}
-                                    <div className={`${homeClass}`}>
-                                        <Home url={url} search={search} collections={collections}
-                                              onResponseMessageClick={onResponseMessageClick}/>
                                     </div>
-                                </div>
-                            </PreviewProvider>
-                        </HttpProvider>
-                    </FileProvider>
-                </RequestCRUDProvider>
-            </SelectedRequestProvider>
-        </CollectionsProvider>
+                                </PreviewProvider>
+                            </HttpProvider>
+                        </FileProvider>
+                    </RequestCRUDProvider>
+                </SelectedRequestProvider>
+            </CollectionsProvider>
+        </UrlProvider>
     );
 };
 
