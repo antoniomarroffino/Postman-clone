@@ -1,34 +1,22 @@
-import {FC, useEffect, useState} from "react";
-import {useHttp} from "../../hooks/useHttp.ts";
-import {usePreview} from "../../hooks/usePreview.ts";
-import {DefaultPreviewStrategy} from "./previewStrategy/strategy/DefaultPreviewStrategy.tsx";
-import {getContentType} from "../../utils/contentTypeUtils.ts";
-import {useSelectedRequest} from "../../hooks/request/useSelectedRequest.ts";
-import {HttpResponseDTO} from "../../types/model/HttpResponseDTO.ts";
+import { FC, useEffect, useState } from "react";
+import { useHttp } from "../../hooks/useHttp.ts";
+import { usePreview } from "../../hooks/usePreview.ts";
+import { DefaultPreviewStrategy } from "./previewStrategy/strategy/DefaultPreviewStrategy.tsx";
+import { getContentType } from "../../utils/contentTypeUtils.ts";
+import { useSelectedRequest } from "../../hooks/request/useSelectedRequest.ts";
+import { HttpResponseDTO } from "../../types/model/HttpResponseDTO.ts";
+import { StatusBadge } from "./StatusBadge.tsx";
 
-const StatusBadge: FC<{ status: string }> = ({status}) => {
-    const statusCode = parseInt(status.split(" ")[0]);
-    let colorClass = "badge-neutral";
+interface ResponseSectionProps {
+    onResponseMessageClick: (response: HttpResponseDTO) => void;
+}
 
-    if (statusCode >= 200 && statusCode < 300) colorClass = "badge-success";
-    else if (statusCode >= 300 && statusCode < 400) colorClass = "badge-info";
-    else if (statusCode >= 400 && statusCode < 500) colorClass = "badge-warning";
-    else if (statusCode >= 500) colorClass = "badge-error";
-
-    return (
-        <div className={`badge gap-2 ${colorClass}`}>
-            <span className="font-mono">{statusCode}</span>
-            <span className="hidden sm:inline">{status.split(" ")[1]}</span>
-        </div>
-    );
-};
-
-const ResponseSection: FC<{ onResponseMessageClick: (response: HttpResponseDTO) => void }> = () => {
-    const {state} = useHttp();
-    const {strategies} = usePreview();
+const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) => {
+    const { state } = useHttp();
+    const { strategies } = usePreview();
     const [viewMode, setViewMode] = useState<"raw" | "preview">("raw");
     const response = state.response;
-    const {selectedRequest} = useSelectedRequest();
+    const { selectedRequest } = useSelectedRequest();
 
     useEffect(() => {
         setViewMode("raw");
@@ -49,9 +37,7 @@ const ResponseSection: FC<{ onResponseMessageClick: (response: HttpResponseDTO) 
             <div className="response-container h-[calc(100vh-320px)] min-h-[300px] flex flex-col">
                 {viewMode === "raw" ? (
                     <pre className="bg-base-200 p-4 rounded-lg overflow-auto border border-base-300 flex-1">
-            {(
-                response.data
-            )}
+            {response.data}
           </pre>
                 ) : (
                     <div className="bg-base-200 p-4 rounded-lg overflow-auto border border-base-300 flex-1">
@@ -60,11 +46,7 @@ const ResponseSection: FC<{ onResponseMessageClick: (response: HttpResponseDTO) 
                             const strategy =
                                 strategies.find((s) => s.supports(contentType)) ||
                                 new DefaultPreviewStrategy();
-                            return strategy.render(
-                                response.data,
-                                state.request.uri,
-                                response.headers
-                            );
+                            return strategy.render(response.data, state.request.uri, response.headers);
                         })()}
                     </div>
                 )}
@@ -74,12 +56,13 @@ const ResponseSection: FC<{ onResponseMessageClick: (response: HttpResponseDTO) 
 
     return (
         <div className="flex flex-col gap-2 flex-1 border-t border-base-300 pt-4">
+
             {(state.response || state.error) && (
                 <div className="flex justify-between items-center p-4 bg-base-200 rounded-lg shadow-sm">
                     <div className="flex gap-4 items-center">
                         {state.response && (
                             <>
-                                <StatusBadge status={state.response.status}/>
+                                <StatusBadge status={state.response.status} />
                                 <div className="flex gap-4 text-sm">
                                     <div className="tooltip" data-tip="Response time">
                     <span className="text-base-content/80">
@@ -99,6 +82,15 @@ const ResponseSection: FC<{ onResponseMessageClick: (response: HttpResponseDTO) 
                                 <span>⚠️ Error</span>
                             </div>
                         )}
+                    </div>
+
+                    <div className="p-4">
+                        <button
+                            className="btn btn-primary text-black"
+                            onClick={() => response && onResponseMessageClick(response)}
+                        >
+                            Call function
+                        </button>
                     </div>
 
                     {state.response && (
@@ -130,9 +122,8 @@ const ResponseSection: FC<{ onResponseMessageClick: (response: HttpResponseDTO) 
                 </div>
             )}
 
-            {state.response && (
-                <div className="flex-1 flex flex-col">{renderContent()}</div>
-            )}
+
+            {state.response && <div className="flex-1 flex flex-col">{renderContent()}</div>}
 
             {state.error && (
                 <div className="alert alert-error mt-4">
