@@ -1,6 +1,7 @@
 import RequestCollection from "../types/model/RequestCollection";
 import {CollectionsContext} from "../contexts/CollectionContext";
 import React, {useCallback, useEffect, useState} from "react";
+import {useUrl} from "../hooks/useUrl.ts";
 
 export const CollectionsProvider: React.FC<{ children: React.ReactNode }> = ({
                                                                                  children,
@@ -8,13 +9,14 @@ export const CollectionsProvider: React.FC<{ children: React.ReactNode }> = ({
     const [collections, setCollections] = useState<RequestCollection[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<unknown>(null);
+    const {url} = useUrl();
 
     const fetchCollections = useCallback(async () => {
         setIsLoading(true);
         setError(null);
         try {
             const response = await fetch(
-                `${import.meta.env.VITE_BACKEND_BASE_URL}/bff/collections`
+                `${url}/bff/collections`
             );
             if (!response.ok)
                 throw new Error("Errore nel recupero delle collections");

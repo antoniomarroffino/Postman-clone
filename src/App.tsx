@@ -9,13 +9,13 @@ function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <HttpClient
-                url="https://supsi-ticket.cloudns.org/supsi-http/bff/"
+                url="https://supsi-ticket.cloudns.org/supsi-http-client"
                 search={true}
                 collections={true}
                 onResponseMessageClick={(response) => alert(response.status)}
             />
             <HttpClient
-                url="https://www.supsi.ch"
+                url=""
                 search={true}
                 collections={false}
                 onResponseMessageClick={(response) => alert(response.status)}

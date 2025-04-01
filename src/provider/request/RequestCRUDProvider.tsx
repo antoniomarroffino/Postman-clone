@@ -4,10 +4,13 @@ import RequestDTO from "../../types/model/RequestDTO.ts";
 import {apiKey} from "../../config/config.ts";
 import RequestCreationDTO from "../../types/model/RequestCreationDTO.ts";
 import {useSelectedRequest} from "../../hooks/request/useSelectedRequest.ts";
+import React from "react";
+import {useUrl} from "../../hooks/useUrl.ts";
 
 export const RequestCRUDProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const queryClient = useQueryClient();
     const {selectedRequest, setSelectedRequest, deselectRequest} = useSelectedRequest();
+    const {url} = useUrl();
 
     const createMutation = useMutation({
         mutationFn: async ({collectionId, requestCreationDTO}: {
@@ -15,9 +18,7 @@ export const RequestCRUDProvider: React.FC<{ children: React.ReactNode }> = ({ch
             requestCreationDTO: RequestCreationDTO
         }) => {
             const response = await fetch(
-                `${
-                    import.meta.env.VITE_BACKEND_BASE_URL
-                }/bff/collections/${collectionId}/requests?apiKey=${apiKey}`,
+                `${url}/bff/collections/${collectionId}/requests?apiKey=${apiKey}`,
                 {
                     method: "POST",
                     headers: {
@@ -46,9 +47,7 @@ export const RequestCRUDProvider: React.FC<{ children: React.ReactNode }> = ({ch
             requestDTO: RequestDTO
         }) => {
             const response = await fetch(
-                `${
-                    import.meta.env.VITE_BACKEND_BASE_URL
-                }/bff/requests/${requestId}?apiKey=${apiKey}`,
+                `${url}/bff/requests/${requestId}?apiKey=${apiKey}`,
                 {
                     method: "PUT",
                     headers: {
@@ -77,9 +76,7 @@ export const RequestCRUDProvider: React.FC<{ children: React.ReactNode }> = ({ch
     const deleteMutation = useMutation<void, Error, { collectionId: number, requestId: string }>({
         mutationFn: async ({requestId}) => {
             await fetch(
-                `${
-                    import.meta.env.VITE_BACKEND_BASE_URL
-                }/bff/requests/${requestId}?apiKey=${apiKey}`,
+                `${url}/bff/requests/${requestId}?apiKey=${apiKey}`,
                 {
                     method: "DELETE",
                 }

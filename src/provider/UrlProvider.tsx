@@ -4,9 +4,9 @@ import {UrlContext} from "../contexts/UrlContext";
 
 export const UrlProvider: React.FC<{ children: React.ReactNode, url?: string }> = ({children, url}) => {
 
-    const backendUrl = url || `${
-        import.meta.env.VITE_BACKEND_BASE_URL
-    }`;
+    const backendUrl = url && url.trim().length > 0
+        ? url
+        : import.meta.env.VITE_BACKEND_BASE_URL;
 
     const value = {url: backendUrl};
 

@@ -5,6 +5,7 @@ import {HttpActions} from "../types/model/HttpActions.ts";
 import {HttpResponseDTO} from "../types/model/HttpResponseDTO.ts";
 import RequestDTO from "../types/model/RequestDTO.ts";
 import {useSelectedRequest} from "../hooks/request/useSelectedRequest.ts";
+import {useUrl} from "../hooks/useUrl.ts";
 
 export const HttpProvider = ({children}: { children: ReactNode }) => {
     const {selectedRequest} = useSelectedRequest();
@@ -22,6 +23,8 @@ export const HttpProvider = ({children}: { children: ReactNode }) => {
         error: undefined,
         response: undefined,
     });
+
+    const {url} = useUrl();
 
     useEffect(() => {
         if (selectedRequest) {
@@ -108,7 +111,7 @@ export const HttpProvider = ({children}: { children: ReactNode }) => {
                     };
 
                     const startTime = performance.now();
-                    const response = await fetch(`/proxy/execute`, {
+                    const response = await fetch(`${url}/proxy/execute`, {
                         method: "POST",
                         headers: {
                             Accept: "*/*",

@@ -56,15 +56,7 @@ export const FileProvider: React.FC<{ children: React.ReactNode }> = ({
                 return false;
 
             const validMethods = ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"];
-            if (!validMethods.includes(req.method.toUpperCase())) return false;
-
-            try {
-                new URL(req.uri);
-            } catch {
-                return false;
-            }
-
-            return true;
+            return validMethods.includes(req.method.toUpperCase());
         });
     };
 
@@ -97,9 +89,10 @@ export const FileProvider: React.FC<{ children: React.ReactNode }> = ({
         setIsImporting(true);
         setError(null);
 
+
         try {
             if (file.type !== "application/json") {
-                throw new Error("Invalid file format. Only JSON files are allowed.");
+                console.error("Invalid file format. Only JSON files are allowed.");
             }
             const reader = new FileReader();
             const content = await new Promise<string>((resolve, reject) => {
@@ -110,7 +103,7 @@ export const FileProvider: React.FC<{ children: React.ReactNode }> = ({
 
             const data = JSON.parse(content);
             if (!isValidExportedCollection(data)) {
-                throw new Error("Invalid file structure");
+                console.error("Invalid file structure");
             }
 
             data.collection.name = sanitizeFileName(data.collection.name);
@@ -121,6 +114,7 @@ export const FileProvider: React.FC<{ children: React.ReactNode }> = ({
             addNewCollection(data.collection);
         } catch (err) {
             setError(err);
+            console.error(err);
         } finally {
             setIsImporting(false);
         }
