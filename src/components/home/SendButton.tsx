@@ -1,13 +1,8 @@
 import {FC} from "react";
 import {useHttp} from "../../hooks/useHttp";
 import {METHODS_REQUIRING_BODY} from "../../config/config.ts";
-import {HttpResponseDTO} from "../../types/model/HttpResponseDTO.ts";
 
-interface SendButtonProps {
-    onResponseMessageClick: (response: HttpResponseDTO) => void;
-}
-
-const SendButton: FC<SendButtonProps> = ({onResponseMessageClick}) => {
+const SendButton: FC = () => {
     const {state, actions} = useHttp();
 
     const isValidRequest = () => {
@@ -34,7 +29,7 @@ const SendButton: FC<SendButtonProps> = ({onResponseMessageClick}) => {
                 disabled:text-base-content/50
                 disabled:cursor-not-allowed
                 ${state.loading ? 'loading' : ''}`}
-            onClick={() => actions.sendRequest(onResponseMessageClick)}
+            onClick={actions.sendRequest}
             disabled={isDisabled}
             aria-disabled={isDisabled}
         >

@@ -1,5 +1,3 @@
-import {HttpResponseDTO} from "./HttpResponseDTO.ts";
-
 export interface HttpActions {
     setMethod: (method: string) => void;
     setUri: (uri: string) => void;
@@ -7,5 +5,5 @@ export interface HttpActions {
     updateHeader: (oldKey: string, newKey: string, newValue: string) => void;
     removeHeader: (key: string) => void;
     setBody: (body: string) => void;
-    sendRequest: (onResponseMessageClick: (response: HttpResponseDTO) => void) => Promise<void>;
+    sendRequest: () => Promise<void>;
 }

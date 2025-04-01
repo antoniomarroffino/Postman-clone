@@ -4,6 +4,7 @@ import {usePreview} from "../../hooks/usePreview.ts";
 import {DefaultPreviewStrategy} from "./previewStrategy/strategy/DefaultPreviewStrategy.tsx";
 import {getContentType} from "../../utils/contentTypeUtils.ts";
 import {useSelectedRequest} from "../../hooks/request/useSelectedRequest.ts";
+import {HttpResponseDTO} from "../../types/model/HttpResponseDTO.ts";
 
 const StatusBadge: FC<{ status: string }> = ({status}) => {
     const statusCode = parseInt(status.split(" ")[0]);
@@ -22,7 +23,7 @@ const StatusBadge: FC<{ status: string }> = ({status}) => {
     );
 };
 
-const ResponseSection: FC = () => {
+const ResponseSection: FC<{ onResponseMessageClick: (response: HttpResponseDTO) => void }> = () => {
     const {state} = useHttp();
     const {strategies} = usePreview();
     const [viewMode, setViewMode] = useState<"raw" | "preview">("raw");
@@ -48,10 +49,8 @@ const ResponseSection: FC = () => {
             <div className="response-container h-[calc(100vh-320px)] min-h-[300px] flex flex-col">
                 {viewMode === "raw" ? (
                     <pre className="bg-base-200 p-4 rounded-lg overflow-auto border border-base-300 flex-1">
-            {typeof response.data === "string" ? (
+            {(
                 response.data
-            ) : (
-                <code>{JSON.stringify(response.data, null, 2)}</code>
             )}
           </pre>
                 ) : (

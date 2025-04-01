@@ -99,7 +99,7 @@ export const HttpProvider = ({children}: { children: ReactNode }) => {
                     request: {...prev.request, body},
                 })),
 
-            sendRequest: async (onResponseMessageClick: (response: HttpResponseDTO) => void) => {
+            sendRequest: async () => {
                 try {
                     setState((prev) => ({...prev, loading: true, error: undefined}));
 
@@ -140,8 +140,6 @@ export const HttpProvider = ({children}: { children: ReactNode }) => {
                         response: responseData,
                         loading: false,
                     }));
-
-                    onResponseMessageClick(responseData);
                 } catch (err) {
                     const error = err instanceof Error ? err.message : "Unknown error";
                     setState((prev) => ({

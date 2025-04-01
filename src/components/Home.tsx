@@ -25,7 +25,7 @@ const Home: React.FC<HttpClientProps> = ({url, collections, onResponseMessageCli
                 <MethodDropdown/>
                 <UriInput url={url}/>
                 <div className="flex gap-2">
-                    <SendButton onResponseMessageClick={onResponseMessageClick}/>
+                    <SendButton/>
                     {collections && <SaveButton/>}
                 </div>
             </div>
@@ -35,7 +35,7 @@ const Home: React.FC<HttpClientProps> = ({url, collections, onResponseMessageCli
                 <RequestBody/>
             </div>
 
-            <ResponseSection/>
+            <ResponseSection onResponseMessageClick={onResponseMessageClick}/>
         </div>
     );
 };
