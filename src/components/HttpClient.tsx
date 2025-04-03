@@ -53,8 +53,8 @@ const HttpClient: React.FC<HttpClientProps> = ({
                         <FileProvider>
                             <HttpProvider>
                                 <PreviewProvider>
-                                    <PreviewRegistrar/>
-                                    <div className="grid grid-cols-1 md:grid-cols-8 lg:grid-cols-16 h-screen">
+                                    <PreviewRegistrar />
+                                    <div className="grid grid-cols-1 md:grid-cols-8 lg:grid-cols-16 h-screen overflow-hidden">
                                         {collections && (
                                             <div className={`transition-all duration-300 ${sidebarClass} max-w-xs`}>
                                                 <Sidebar
@@ -64,7 +64,7 @@ const HttpClient: React.FC<HttpClientProps> = ({
                                                 />
                                             </div>
                                         )}
-                                        <div className={`${homeClass} max-w-full`}>
+                                        <div className={`${homeClass} max-w-full max-h-full overflow-auto`}>
                                             <Home
                                                 url={url}
                                                 search={search}

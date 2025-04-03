@@ -35,7 +35,9 @@ const Home: React.FC<HttpClientProps> = ({url, collections, onResponseMessageCli
                 <RequestBody/>
             </div>
 
-            <ResponseSection onResponseMessageClick={onResponseMessageClick}/>
+            <div className="flex-1 overflow-auto">
+                <ResponseSection onResponseMessageClick={onResponseMessageClick} />
+            </div>
         </div>
     );
 };

@@ -1,11 +1,11 @@
-import { FC, useEffect, useState } from "react";
-import { useHttp } from "../../hooks/useHttp.ts";
-import { usePreview } from "../../hooks/usePreview.ts";
-import { DefaultPreviewStrategy } from "./previewStrategy/strategy/DefaultPreviewStrategy.tsx";
-import { getContentType } from "../../utils/contentTypeUtils.ts";
-import { useSelectedRequest } from "../../hooks/request/useSelectedRequest.ts";
-import { HttpResponseDTO } from "../../types/model/HttpResponseDTO.ts";
-import { StatusBadge } from "./StatusBadge.tsx";
+import {FC, useEffect, useState} from "react";
+import {useHttp} from "../../hooks/useHttp.ts";
+import {usePreview} from "../../hooks/usePreview.ts";
+import {DefaultPreviewStrategy} from "./previewStrategy/strategy/DefaultPreviewStrategy.tsx";
+import {getContentType} from "../../utils/contentTypeUtils.ts";
+import {useSelectedRequest} from "../../hooks/request/useSelectedRequest.ts";
+import {HttpResponseDTO} from "../../types/model/HttpResponseDTO.ts";
+import {StatusBadge} from "./StatusBadge.tsx";
 
 interface ResponseSectionProps {
     onResponseMessageClick: (response: HttpResponseDTO) => void;
@@ -34,13 +34,13 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
         if (!response) return null;
 
         return (
-            <div className="response-container flex-1 min-h-[300px] flex flex-col overflow-auto">
+            <div className="response-container flex-1 min-h-[300px] flex flex-col overflow-auto max-w-full">
                 {viewMode === "raw" ? (
-                    <pre className="bg-base-200 p-4 rounded-lg overflow-auto border border-base-300 flex-1">
+                    <pre className="bg-base-200 p-2 rounded-lg overflow-auto border border-base-300 flex-1 max-w-full">
                         {response.data}
                     </pre>
                 ) : (
-                    <div className="bg-base-200 p-4 rounded-lg overflow-auto border border-base-300 flex-1">
+                    <div className="bg-base-200 p-2 rounded-lg overflow-auto border border-base-300 flex-1 max-w-full">
                         {(() => {
                             const contentType = getContentType(response.headers);
                             const strategy =
@@ -55,14 +55,14 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
     };
 
     return (
-        <div className="flex flex-col gap-2 flex-1 border-t border-base-300 pt-4 h-full overflow-hidden">
+        <div className="flex flex-col gap-2 flex-1  h-full overflow-hidden max-w-full rounded-lg">
             {(state.response || state.error) && (
-                <div className="flex justify-between items-center p-4 bg-base-200 rounded-lg shadow-sm">
-                    <div className="flex gap-4 items-center">
+                <div className="flex justify-between items-center p-2 bg-base-200 rounded-lg shadow-sm max-w-full">
+                    <div className="flex gap-2 items-center">
                         {state.response && (
                             <>
                                 <StatusBadge status={state.response.status} />
-                                <div className="flex gap-4 text-sm">
+                                <div className="flex gap-2 text-sm">
                                     <div className="tooltip" data-tip="Response time">
                                         <span className="text-base-content/80">
                                             ⏱ {state.response.time.toFixed(2)}ms
@@ -77,15 +77,15 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
                             </>
                         )}
                         {state.error && (
-                            <div className="badge badge-error gap-2">
+                            <div className="badge badge-error gap-1">
                                 <span>⚠️ Error</span>
                             </div>
                         )}
                     </div>
 
-                    <div className="p-4">
+                    <div className="p-2">
                         <button
-                            className="btn btn-primary text-black"
+                            className="btn btn-primary btn-sm text-black"
                             onClick={() => response && onResponseMessageClick(response)}
                         >
                             Call function
@@ -102,7 +102,7 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
                                 }`}
                                 onClick={() => setViewMode("preview")}
                             >
-                                <span className="mr-2">👁️</span>
+                                <span className="mr-1">👁️</span>
                                 Preview
                             </button>
                             <button
@@ -113,8 +113,7 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
                                 }`}
                                 onClick={() => setViewMode("raw")}
                             >
-                                <span className="mr-2">📄</span>
-                                Raw
+                                <span className="mr-1">📄</span>
                             </button>
                         </div>
                     )}
@@ -124,10 +123,10 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
             {state.response && <div className="flex-1 flex flex-col overflow-hidden">{renderContent()}</div>}
 
             {state.error && (
-                <div className="alert alert-error mt-4">
+                <div className="alert alert-error mt-2">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="stroke-current shrink-0 h-6 w-6"
+                        className="stroke-current shrink-0 h-5 w-5"
                         fill="none"
                         viewBox="0 0 24 24"
                     >
