@@ -1,11 +1,13 @@
-import {FC, useEffect, useState} from "react";
-import {useHttp} from "../../hooks/useHttp.ts";
-import {usePreview} from "../../hooks/usePreview.ts";
-import {DefaultPreviewStrategy} from "./previewStrategy/strategy/DefaultPreviewStrategy.tsx";
-import {getContentType} from "../../utils/contentTypeUtils.ts";
-import {useSelectedRequest} from "../../hooks/request/useSelectedRequest.ts";
-import {HttpResponseDTO} from "../../types/model/HttpResponseDTO.ts";
-import {StatusBadge} from "./StatusBadge.tsx";
+import  { FC, useEffect, useState } from 'react';
+import { useHttp } from '../../hooks/useHttp.ts';
+import { usePreview } from '../../hooks/usePreview.ts';
+import { DefaultPreviewStrategy } from './previewStrategy/strategy/DefaultPreviewStrategy.tsx';
+import { getContentType } from '../../utils/contentTypeUtils.ts';
+import { useSelectedRequest } from '../../hooks/request/useSelectedRequest.ts';
+import { HttpResponseDTO } from '../../types/model/HttpResponseDTO.ts';
+import { StatusBadge } from './StatusBadge.tsx';
+import RawButton from './RawButton';
+import PreviewButton from './PreviewButton';
 
 interface ResponseSectionProps {
     onResponseMessageClick: (response: HttpResponseDTO) => void;
@@ -55,7 +57,7 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
     };
 
     return (
-        <div className="flex flex-col gap-2 flex-1  h-full overflow-hidden max-w-full rounded-lg">
+        <div className="flex flex-col gap-2 flex-1 h-full overflow-hidden max-w-full rounded-lg">
             {(state.response || state.error) && (
                 <div className="flex justify-between items-center p-2 bg-base-200 rounded-lg shadow-sm max-w-full">
                     <div className="flex gap-2 items-center">
@@ -94,27 +96,14 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
 
                     {state.response && (
                         <div className="btn-group">
-                            <button
-                                className={`btn btn-sm ${
-                                    viewMode === "preview"
-                                        ? "btn-active font-bold"
-                                        : "btn-outline font-light opacity-70"
-                                }`}
+                            <PreviewButton
+                                isActive={viewMode === "preview"}
                                 onClick={() => setViewMode("preview")}
-                            >
-                                <span className="mr-1">👁️</span>
-                                Preview
-                            </button>
-                            <button
-                                className={`btn btn-sm ${
-                                    viewMode === "raw"
-                                        ? "btn-active font-bold"
-                                        : "btn-outline font-light opacity-70"
-                                }`}
+                            />
+                            <RawButton
+                                isActive={viewMode === "raw"}
                                 onClick={() => setViewMode("raw")}
-                            >
-                                <span className="mr-1">📄</span>
-                            </button>
+                            />
                         </div>
                     )}
                 </div>

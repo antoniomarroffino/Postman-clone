@@ -28,13 +28,11 @@ const Home: React.FC<HttpClientProps> = ({ url, collections, onResponseMessageCl
                 </div>
             </div>
 
-            {/* Riduci il fattore di crescita della seconda riga */}
             <div className="flex gap-4 flex-[0.8] overflow-auto">
                 <HeadersTable />
                 <RequestBody />
             </div>
 
-            {/* Aumenta il fattore di crescita della terza riga */}
             <div className="flex-[1.2] overflow-auto">
                 <ResponseSection onResponseMessageClick={onResponseMessageClick} />
             </div>
