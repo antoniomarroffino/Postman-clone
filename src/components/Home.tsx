@@ -21,7 +21,7 @@ const Home: React.FC<HttpClientProps> = ({url, collections, onResponseMessageCli
 
     return (
         <div className="p-4 h-full flex flex-col gap-4">
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-2 flex-wrap items-center">
                 <MethodDropdown/>
                 <UriInput url={url}/>
                 <div className="flex gap-2">
@@ -30,7 +30,7 @@ const Home: React.FC<HttpClientProps> = ({url, collections, onResponseMessageCli
                 </div>
             </div>
 
-            <div className="flex gap-4 flex-1 overflow-hidden">
+            <div className="flex gap-4 flex-1 overflow-auto">
                 <HeadersTable/>
                 <RequestBody/>
             </div>

@@ -34,11 +34,11 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
         if (!response) return null;
 
         return (
-            <div className="response-container h-[calc(100vh-320px)] min-h-[300px] flex flex-col">
+            <div className="response-container flex-1 min-h-[300px] flex flex-col overflow-auto">
                 {viewMode === "raw" ? (
                     <pre className="bg-base-200 p-4 rounded-lg overflow-auto border border-base-300 flex-1">
-            {response.data}
-          </pre>
+                        {response.data}
+                    </pre>
                 ) : (
                     <div className="bg-base-200 p-4 rounded-lg overflow-auto border border-base-300 flex-1">
                         {(() => {
@@ -55,8 +55,7 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
     };
 
     return (
-        <div className="flex flex-col gap-2 flex-1 border-t border-base-300 pt-4">
-
+        <div className="flex flex-col gap-2 flex-1 border-t border-base-300 pt-4 h-full overflow-hidden">
             {(state.response || state.error) && (
                 <div className="flex justify-between items-center p-4 bg-base-200 rounded-lg shadow-sm">
                     <div className="flex gap-4 items-center">
@@ -65,14 +64,14 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
                                 <StatusBadge status={state.response.status} />
                                 <div className="flex gap-4 text-sm">
                                     <div className="tooltip" data-tip="Response time">
-                    <span className="text-base-content/80">
-                      ⏱ {state.response.time.toFixed(2)}ms
-                    </span>
+                                        <span className="text-base-content/80">
+                                            ⏱ {state.response.time.toFixed(2)}ms
+                                        </span>
                                     </div>
                                     <div className="tooltip" data-tip="Response size">
-                    <span className="text-base-content/80">
-                      📦 {formatSize(state.response.size)}
-                    </span>
+                                        <span className="text-base-content/80">
+                                            📦 {formatSize(state.response.size)}
+                                        </span>
                                     </div>
                                 </div>
                             </>
@@ -122,8 +121,7 @@ const ResponseSection: FC<ResponseSectionProps> = ({ onResponseMessageClick }) =
                 </div>
             )}
 
-
-            {state.response && <div className="flex-1 flex flex-col">{renderContent()}</div>}
+            {state.response && <div className="flex-1 flex flex-col overflow-hidden">{renderContent()}</div>}
 
             {state.error && (
                 <div className="alert alert-error mt-4">
