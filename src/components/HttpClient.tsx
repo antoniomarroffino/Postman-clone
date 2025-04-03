@@ -64,7 +64,7 @@ const HttpClient: React.FC<HttpClientProps> = ({
                                                 />
                                             </div>
                                         )}
-                                        <div className={`${homeClass} max-w-full max-h-full overflow-auto`}>
+                                        <div className={`${homeClass} max-w-full h-full overflow-auto`}>
                                             <Home
                                                 url={url}
                                                 search={search}
