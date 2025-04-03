@@ -1,14 +1,15 @@
 import {useHttp} from "../../hooks/useHttp";
 import HeaderRow from "./HeaderRow";
 import TableHeaderRow from "./TableHeaderRow";
+import React from "react";
 
 const HeadersTable: React.FC = () => {
-    const {state, actions} = useHttp();
+    const { state, actions } = useHttp();
 
     const headersEntries = Object.entries(state.request.headers);
 
     return (
-        <div className="w-1/2 flex flex-col">
+        <div className="w-full md:w-1/2 flex flex-col max-h-64 overflow-auto">
             <div className="flex justify-between items-center mb-2">
                 <h3 className="font-bold text-lg">Headers</h3>
                 <button
@@ -22,11 +23,11 @@ const HeadersTable: React.FC = () => {
             <div className="bg-base-200 rounded-lg flex-1 overflow-hidden flex flex-col">
                 <table className="table w-full border-b border-base-content/10">
                     <thead>
-                    <TableHeaderRow/>
+                    <TableHeaderRow />
                     </thead>
                 </table>
 
-                <div className="overflow-y-auto flex-1 max-h-64 relative">
+                <div className="overflow-y-auto flex-1">
                     <table className="table w-full">
                         <tbody>
                         {headersEntries.map(([headerKey, values]) => (

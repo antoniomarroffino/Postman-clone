@@ -37,7 +37,7 @@ const HttpClient: React.FC<HttpClientProps> = ({
     };
 
     let sidebarClass = "";
-    let homeClass = "";
+    let homeClass: string;
     if (collections) {
         sidebarClass = isSidebarOpen ? "col-span-3" : "col-span-1";
         homeClass = isSidebarOpen ? "col-span-13" : "col-span-15";
@@ -53,10 +53,10 @@ const HttpClient: React.FC<HttpClientProps> = ({
                         <FileProvider>
                             <HttpProvider>
                                 <PreviewProvider>
-                                    <PreviewRegistrar/>
-                                    <div className="grid grid-cols-16 h-screen">
+                                    <PreviewRegistrar />
+                                    <div className="grid grid-cols-1 md:grid-cols-8 lg:grid-cols-16 h-screen overflow-hidden">
                                         {collections && (
-                                            <div className={`${sidebarClass}`}>
+                                            <div className={`transition-all duration-300 ${sidebarClass} max-w-xs`}>
                                                 <Sidebar
                                                     showSearch={search}
                                                     isOpen={isSidebarOpen}
@@ -64,9 +64,13 @@ const HttpClient: React.FC<HttpClientProps> = ({
                                                 />
                                             </div>
                                         )}
-                                        <div className={`${homeClass}`}>
-                                            <Home url={url} search={search} collections={collections}
-                                                  onResponseMessageClick={onResponseMessageClick}/>
+                                        <div className={`${homeClass} max-w-full h-full overflow-auto`}>
+                                            <Home
+                                                url={url}
+                                                search={search}
+                                                collections={collections}
+                                                onResponseMessageClick={onResponseMessageClick}
+                                            />
                                         </div>
                                     </div>
                                 </PreviewProvider>

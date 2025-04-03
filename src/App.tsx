@@ -4,7 +4,6 @@ import HttpClient from "./components/HttpClient";
 
 const queryClient = new QueryClient();
 
-
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
@@ -14,12 +13,29 @@ function App() {
                 collections={true}
                 onResponseMessageClick={(response) => alert(response.status)}
             />
+            {/*
+            <hr/>
             <HttpClient
-                url=""
+                url="https://supsi-ticket.cloudns.org/supsi-http-client"
+                search={false}
+                collections={true}
+                onResponseMessageClick={(response) => alert(response.status)}
+            />
+            <hr/>
+            <HttpClient
+                url="https://supsi-ticket.cloudns.org/supsi-http-client"
                 search={true}
                 collections={false}
                 onResponseMessageClick={(response) => alert(response.status)}
             />
+            <hr/>
+            <HttpClient
+                url="https://supsi-ticket.cloudns.org/supsi-http-client"
+                search={false}
+                collections={false}
+                onResponseMessageClick={(response) => alert(response.status)}
+            />
+            */}
         </QueryClientProvider>
     );
 }
