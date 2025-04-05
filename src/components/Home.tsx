@@ -5,12 +5,17 @@ import SendButton from "./home/SendButton.tsx";
 import HeadersTable from "./home/HeadersTable.tsx";
 import RequestBody from "./home/RequestBody.tsx";
 import ResponseSection from "./home/ResponseSection.tsx";
-import SaveButton from "./home/SaveButton.tsx";
-import HttpClientProps from "../types/props/HttpClientProps.ts";
+import SaveButton from "./home/SaveButton.tsx"
 import AnyContent from "./home/AnyContent.tsx";
 import React from "react";
+import {HttpResponseDTO} from "../types/model/HttpResponseDTO.ts";
 
-const Home: React.FC<HttpClientProps> = ({ url, collections, onResponseMessageClick }) => {
+interface HomeProps {
+    collections: boolean,
+    onResponseMessageClick: (response: HttpResponseDTO) => void,
+}
+
+const Home: React.FC<HomeProps> = ({ collections, onResponseMessageClick }) => {
     const { selectedRequest } = useSelectedRequest();
 
     if (collections && !selectedRequest) {
@@ -21,7 +26,7 @@ const Home: React.FC<HttpClientProps> = ({ url, collections, onResponseMessageCl
         <div className="p-4 h-full flex flex-col gap-4">
             <div className="flex gap-2 flex-wrap items-center">
                 <MethodDropdown />
-                <UriInput url={url} />
+                <UriInput />
                 <div className="flex gap-2">
                     <SendButton />
                     {collections && <SaveButton />}
@@ -40,4 +45,4 @@ const Home: React.FC<HttpClientProps> = ({ url, collections, onResponseMessageCl
     );
 };
 
-export default Home;;
+export default Home;

@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import SidebarProps from "../types/props/SidebarProps";
 import { FiFolder, FiMenu, FiSearch, FiUpload, FiX } from "react-icons/fi";
 import CollectionList from "./sidebar/CollectionList";
 import ImportButton from "./sidebar/ImportButton.tsx";
+
+interface SidebarProps {
+    isOpen: boolean;
+    showSearch: boolean;
+    onToggle: () => void;
+}
 
 const Sidebar: React.FC<SidebarProps> = ({ showSearch, isOpen, onToggle }) => {
     const [searchQuery, setSearchQuery] = useState("");

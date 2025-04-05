@@ -110,6 +110,7 @@ export const HttpProvider = ({children}: { children: ReactNode }) => {
                         body: state.request.method === "GET" ? "" : state.request.body,
                     };
 
+                    console.log(httpRequestDTO);
                     const startTime = performance.now();
                     const response = await fetch(`${url}/proxy/execute`, {
                         method: "POST",
@@ -123,9 +124,7 @@ export const HttpProvider = ({children}: { children: ReactNode }) => {
                     let data = await response.text();
                     try {
                         data = JSON.stringify(JSON.parse(data), null, 2);
-                    } catch {
-                        /* empty */
-                    }
+                    } catch { /* empty */ }
 
                     const responseData: HttpResponseDTO = {
                         status: `${response.status} ${response.statusText}`,
@@ -134,6 +133,8 @@ export const HttpProvider = ({children}: { children: ReactNode }) => {
                         time: performance.now() - startTime,
                         size: new TextEncoder().encode(data).length,
                     };
+
+                    console.log(responseData);
 
                     setState((prev) => ({
                         ...prev,

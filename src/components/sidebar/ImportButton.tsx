@@ -46,7 +46,6 @@ const ImportButton: React.FC = () => {
                     </span>
                 </div>
 
-                {/* Progress bar animation */}
                 {isImporting && (
                     <div className="absolute bottom-0 left-0 h-1 bg-primary/20 w-full">
                         <div className="h-full bg-primary animate-progress"></div>
@@ -54,7 +53,6 @@ const ImportButton: React.FC = () => {
                 )}
             </button>
 
-            {/* Hover effect */}
             {!isImporting && (
                 <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary/5 to-secondary/5
                 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"/>

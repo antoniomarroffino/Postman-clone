@@ -13,11 +13,9 @@ const HeaderRow: FC<HeaderRowProps> = ({
                                            onHeaderChange,
                                            onRemoveHeader,
                                        }) => {
-    // Stato locale per gestire i valori digitati
     const [localKey, setLocalKey] = useState(headerKey);
     const [localValue, setLocalValue] = useState(value);
 
-    // Aggiorna lo stato locale se le props cambiano
     useEffect(() => {
         setLocalKey(headerKey);
     }, [headerKey]);
@@ -31,7 +29,6 @@ const HeaderRow: FC<HeaderRowProps> = ({
 
     return (
         <tr className="hover:bg-base-300 transition-colors group relative">
-            {/* Colonna Key */}
             <td className="p-1 border-r border-base-content/10">
                 <div className="relative">
                     <input
@@ -70,7 +67,6 @@ const HeaderRow: FC<HeaderRowProps> = ({
                 </div>
             </td>
 
-            {/* Colonna Value */}
             <td className="p-1">
                 <div className="flex items-center gap-1">
                     <div className="relative flex-1">
@@ -108,7 +104,6 @@ const HeaderRow: FC<HeaderRowProps> = ({
                             </div>
                         )}
                     </div>
-                    {/* Pulsante di rimozione (se non è header di default) */}
                     <button
                         className="btn btn-circle btn-xs opacity-0 group-hover:opacity-100 transition-opacity hover:btn-error"
                         onClick={onRemoveHeader}

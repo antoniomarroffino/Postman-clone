@@ -8,9 +8,9 @@ const SaveButton: FC = () => {
 
     const {updateRequest, isUpdatingRequest, errorUpdateRequest} = useRequestCRUD();
 
-    const handleSave = () => {
-        console.log(state.request);
-        updateRequest(state.request.collectionId, state.request.id, state.request);
+    const handleSave = async () => {
+        const response = await updateRequest(state.request.collectionId, state.request.id, state.request);
+        console.log(response);
     }
 
     return (

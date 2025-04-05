@@ -46,6 +46,7 @@ export const RequestCRUDProvider: React.FC<{ children: React.ReactNode }> = ({ch
             requestId: string,
             requestDTO: RequestDTO
         }) => {
+            console.log(requestDTO);
             const response = await fetch(
                 `${url}/bff/requests/${requestId}?apiKey=${apiKey}`,
                 {
@@ -57,7 +58,7 @@ export const RequestCRUDProvider: React.FC<{ children: React.ReactNode }> = ({ch
                 }
             );
             if (!response.ok) {
-                throw new Error("Failed to update request");
+                console.error("Failed to update request");
             }
             return await response.json();
         },

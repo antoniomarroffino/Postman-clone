@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Home from "./Home";
 import Sidebar from "./Sidebar";
-import HttpClientProps from "../types/props/HttpClientProps";
 import {CollectionsProvider} from "../provider/CollectionProvider.tsx";
 import {SelectedRequestProvider} from "../provider/request/SelectedRequestProvider.tsx";
 import {RequestCRUDProvider} from "../provider/request/RequestCRUDProvider.tsx";
@@ -12,6 +11,7 @@ import {usePreview} from "../hooks/usePreview.ts";
 import {ImagePreviewStrategy} from "./home/previewStrategy/strategy/ImagePreviewStrategy.tsx";
 import {HtmlPreviewStrategy} from "./home/previewStrategy/strategy/HtmlPreviewStrategy.tsx";
 import {UrlProvider} from "../provider/UrlProvider.tsx";
+import {HttpResponseDTO} from "../types/model/HttpResponseDTO.ts";
 
 const PreviewRegistrar: React.FC = () => {
     const {registerStrategy} = usePreview();
@@ -23,6 +23,13 @@ const PreviewRegistrar: React.FC = () => {
     return null;
 };
 
+
+interface HttpClientProps {
+    url: string;
+    search: boolean;
+    collections: boolean;
+    onResponseMessageClick: (response: HttpResponseDTO) => void;
+}
 
 const HttpClient: React.FC<HttpClientProps> = ({
                                                    url,
@@ -66,8 +73,6 @@ const HttpClient: React.FC<HttpClientProps> = ({
                                         )}
                                         <div className={`${homeClass} max-w-full h-full overflow-auto`}>
                                             <Home
-                                                url={url}
-                                                search={search}
                                                 collections={collections}
                                                 onResponseMessageClick={onResponseMessageClick}
                                             />

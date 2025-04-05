@@ -1,7 +1,10 @@
 import React from "react";
 import Collection from "./Collection";
 import {useCollection} from "../../hooks/useCollection";
-import CollectionListProps from "../../types/props/CollectionListProps.ts";
+
+interface CollectionListProps {
+    searchQuery: string;
+}
 
 const CollectionList: React.FC<CollectionListProps> = ({searchQuery}) => {
     const {collections, isLoading, error} = useCollection();

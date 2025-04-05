@@ -1,4 +1,4 @@
-export const apiKey = "adelcelli";
+export const apiKey = "fantomarroffino_react";
 
 export const methods = ["GET", "POST", "PUT", "DELETE", "PATCH"];
 
