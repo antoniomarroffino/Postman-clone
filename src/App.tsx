@@ -13,13 +13,12 @@ function App() {
                 collections={true}
                 onResponseMessageClick={(response) => alert(response.status)}
             />
-            {/*
             <hr/>
             <HttpClient
                 url="https://supsi-ticket.cloudns.org/supsi-http-client"
                 search={false}
                 collections={true}
-                onResponseMessageClick={(response) => alert(response.status)}
+                onResponseMessageClick={(response) => console.log(response)}
             />
             <hr/>
             <HttpClient
@@ -35,7 +34,6 @@ function App() {
                 collections={false}
                 onResponseMessageClick={(response) => alert(response.status)}
             />
-            */}
         </QueryClientProvider>
     );
 }

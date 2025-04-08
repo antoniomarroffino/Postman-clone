@@ -60,8 +60,9 @@ const HttpClient: React.FC<HttpClientProps> = ({
                         <FileProvider>
                             <HttpProvider>
                                 <PreviewProvider>
-                                    <PreviewRegistrar />
-                                    <div className="grid grid-cols-1 md:grid-cols-8 lg:grid-cols-16 h-screen overflow-hidden">
+                                    <PreviewRegistrar/>
+                                    <div
+                                        className="grid grid-cols-1 md:grid-cols-8 lg:grid-cols-16 h-screen overflow-hidden">
                                         {collections && (
                                             <div className={`transition-all duration-300 ${sidebarClass} max-w-xs`}>
                                                 <Sidebar
